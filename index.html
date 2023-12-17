@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Honor Is My Loyalty Store</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Warnes">
+    <style>
+        body {
+            font-family: 'Warnes', cursive;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f8f8;
+            color: #333;
+        }
+
+        header {
+            background-color: #292b2c;
+            color: #fff;
+            text-align: center;
+            padding: 10px;
+        }
+
+        .product-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            padding: 20px;
+        }
+
+        .product {
+            width: 250px;
+            background-color: #fff;
+            margin: 15px;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .product img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+
+        .product h3 {
+            margin-top: 10px;
+            font-size: 18px;
+        }
+
+        .product button {
+            background-color: #5cb85c;
+            color: #fff;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Honor Is My Loyalty Store</h1>
+    </header>
+
+    <div class="product-container" id="product-container">
+        <!-- Products will be dynamically added here using JavaScript -->
+    </div>
+
+    <!-- Google AdSense script -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2026173031925548"
+     crossorigin="anonymous"></script>
+
+    <script>
+        // Sample product data
+        const products = [
+            { name: "Product 1", image: "product1.jpg", robloxLink: "https://www.roblox.com/product1" },
+            { name: "Product 2", image: "product2.jpg", robloxLink: "https://www.roblox.com/product2" },
+            // Add more products as needed
+        ];
+
+        const productContainer = document.getElementById("product-container");
+
+        // Function to create product elements
+        function createProduct(product) {
+            const productElement = document.createElement("div");
+            productElement.classList.add("product");
+
+            const imgElement = document.createElement("img");
+            imgElement.src = product.image;
+            imgElement.alt = product.name;
+
+            const h3Element = document.createElement("h3");
+            h3Element.textContent = product.name;
+
+            const buttonElement = document.createElement("button");
+            buttonElement.textContent = "View on Roblox";
+            buttonElement.addEventListener("click", () => {
+                window.location.href = product.robloxLink;
+            });
+
+            productElement.appendChild(imgElement);
+            productElement.appendChild(h3Element);
+            productElement.appendChild(buttonElement);
+
+            return productElement;
+        }
+
+        // Load products onto the page
+        products.forEach(product => {
+            const productElement = createProduct(product);
+            productContainer.appendChild(productElement);
+        });
+    </script>
+</body>
+</html>
