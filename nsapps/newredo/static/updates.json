@@ -1,0 +1,26 @@
+{
+  "updates": [
+    {
+      "version": "v2.1.0",
+      "date": "8/12/2025",
+      "title": "New Games Added",
+      "changes": [
+        "Added 5 new games",
+        "Fixed loading issues with some games",
+        "Improved mobile responsiveness",
+        "Added search functionality"
+      ]
+    },
+    {
+      "version": "v2.0.0", 
+      "date": "8/11/2025",
+      "title": "Major Update",
+      "changes": [
+        "Complete UI overhaul",
+        "Added theme support",
+        "New category system",
+        "Performance improvements"
+      ]
+    }
+  ]
+}

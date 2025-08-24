@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="editor.css">
+	<title>Cookies Save Editor</title>
+	<script src="../../lib/jquery-3.2.1.slim.min.js"></script>
+	<script src="../../lib/underscore-1.8.3.min.js"></script>
+</head>
+<body>
+	<h1>Cookies Save Editor</h1>
+	<noscript>Please enable javascript.</noscript>
+	<p id="load"></p>
+	<script>$('#load').text('Loading...');</script>
+
+	<form class="hidden">
+		<div id="altStatus">ALT MODE</div>
+		<div id="importExport" class="box">
+			<div>
+				Import:<br>
+				<textarea id="importField" placeholder="Paste code here"
+				spellcheck="false"></textarea><br>
+				<a id="importButton">Import save</a>
+				<a id="selImport">Select</a>
+			</div>
+			<div>
+				Export:<br>
+				<textarea id="exportField" spellcheck="false" readonly></textarea><br>
+				<a id="selExport">Select</a>
+				<div id="warnSpan" class="hidden">
+					<span id="warnCooksSpan" class="clickme" title="Click to add.">
+						<span id="warnCooks">0 cookies</span> short
+						<img id="warnCheat" src="img/cheat.png" alt="">
+					</span>
+					<br id="warnBreak1">
+					<span id="warnAchSpan" class="clickme">
+						<span id="warnAch">0 achievements</span> to be awarded
+					</span>
+					<br id="warnBreak2">
+					<span id="warnWrinklers" class="clickme">
+						Wrinklers out of season
+					</span>
+				</div>
+			</div>
+			<br><br>
+			<label for="abbrCheck">
+				<input id="abbrCheck" type="checkbox">
+				Short numbers
+			</label><br>
+			<label for="bakeryName">
+				Bakery Name:
+				<input id="bakeryName" class="text" spellcheck="false">
+			</label>
+			<a id="randomBakeryName">Random name</a><br>
+			<label for="cookiesBank">
+				Cookies in bank:
+				<input id="cookiesBank" class="exp">
+			</label><br>
+			Cookies per second: <span id="cookiesPerSecond">0</span>
+			<a id="recalcButton" class="hidden">Recalculate</a><br>
+			Chips: <span id="chipsCurrent">0</span><br>
+			Chips desired: <input id="chipsDesired">
+			<span id="chipsDesCooksSpan" class="hidden">
+				(<span id="chipsDesCooks" class="clickme">+0 cookies</span>)
+			</span>
+			<div id="idleGain" class="clickme hidden">
+				Earn Perfect idling cookies
+			</div>
+		</div><br>
+
+		<div id="editTabs" class="tabs">
+			<a id="tabOptions" class="tab tabCurrent">Options &amp; Stats</a>
+			<a id="tabBuildings" class="tab">Buildings</a>
+			<a id="tabUpgrades" class="tab">Upgrades</a>
+			<a id="tabAchieves" class="tab">Achievements</a>
+		</div>
+
+		<div id="editTabDivs">
+			<div id="options" class="tabDiv">
+				<h2>Options</h2>
+				<div id="gameOptions">
+					<a id="optFancyGraph" class="on">Fancy graphics<span></span></a>
+					<a id="optParticles" class="on">Particles<span></span></a>
+					<a id="optNumbers" class="on">Numbers<span></span></a>
+					<a id="optMilk" class="on">Milk<span></span></a>
+					<a id="optCursors" class="on">Cursors<span></span></a>
+					<a id="optShortNumbers" class="on">Short numbers<span></span></a><br>
+					<a id="optOffline">Offline mode<span></span></a>
+					<a id="optCloseWarn">Closing warning<span></span></a>
+					<a id="optAutosave" class="on hidden">Autosave<span></span></a>
+					<a id="optFocus">Focus<span></span></a>
+					<a id="optFastNotes">Fast notes<span></span></a>
+				</div>
+
+				<div id="stats" class="box">
+					<h2>Stats</h2>
+					<div>
+						<strong>General</strong>
+						<table><tbody>
+							<tr>
+								<td><label for="cookiesEarned">
+									Cookies baked (this game)
+								</label></td>
+								<td><input id="cookiesEarned" class="exp"></td>
+							</tr>
+							<tr id="missRow" class="hidden">
+								<td>Cookies baked deficit</td>
+								<td>
+									<span id="missCheatSpan" class="clickme">
+										<span id="missCheat">0 cookies</span> short (bank)
+									</span><br id="missBreak">
+									<span id="missCumuSpan" class="clickme">
+										<span id="missCumu">0 cookies</span> short (price)
+									</span>
+								</td>
+							</tr>
+							<tr>
+								<td>Cookies baked (all time)</td>
+								<td>
+									<span id="cookiesAllTime">0</span>
+									(+<span id="chipsResetGain">0 chips</span> on reset)
+								</td>
+							</tr>
+							<tr>
+								<td><label for="cookiesReset">
+									Cookies forfeited by resetting
+								</label></td>
+								<td>
+									<input id="cookiesReset" class="exp">
+									<span id="chipsReset">(0 chips)</span>
+								</td>
+							</tr>
+							<tr>
+								<td><label for="cookieClicks">Cookie clicks</label></td>
+								<td><input id="cookieClicks" class="exp"></td>
+							</tr>
+							<tr>
+								<td><label for="cookiesHandmade">Hand-made cookies</label></td>
+								<td><input id="cookiesHandmade" class="exp"></td>
+							</tr>
+							<tr>
+								<td><label for="goldClicks">
+										Golden cookie clicks (this game)
+								</label></td>
+								<td><input id="goldClicks"></td>
+							</tr>
+							<tr>
+								<td><label for="goldClicksAll">
+										Golden cookie clicks (all time)
+								</label></td>
+								<td><input id="goldClicksAll"></td>
+							</tr>
+							<tr>
+								<td><label for="goldMiss">
+									Missed golden cookie clicks
+								</label></td>
+								<td><input id="goldMiss"></td>
+							</tr>
+							<tr>
+								<td><label for="numResets">Times reset</label></td>
+								<td><input id="numResets"></td>
+							</tr>
+						</tbody></table>
+					</div>
+
+					<div>
+						<strong>Grandmapocalypse</strong>
+						<table><tbody>
+							<tr>
+								<td>Next research</td>
+								<td>
+									<span id="research">---</span>
+									<span id="researchClick" class="clickme hidden">---</span>
+								</td>
+							</tr>
+							<tr>
+								<td><label for="researchTime">
+									Research time remaining
+								</label></td>
+								<td id="researchTimeCell">
+									<input id="researchTime" maxlength="6" disabled> frames
+									<span id="researchTimeClick" class="clickme hidden">Reset</span>
+								</td>
+							</tr>
+							<tr>
+								<td>Elder wrath</td>
+								<td><select id="wrathSel">
+									<option>Appeased</option>
+									<option>Awoken</option>
+									<option>Displeased</option>
+									<option>Angered</option>
+								</select></td>
+							</tr>
+							<tr>
+								<td><label for="numPledges">Elder pledges</label></td>
+								<td>
+									<input id="numPledges" disabled>
+									(Next pledge price: <span id="pledgePrice">0</span>)
+								</td>
+							</tr>
+							<tr>
+								<td><label for="pledgeTime">Pledge time remaining</label></td>
+								<td id="pledgeTimeCell">
+									<input id="pledgeTime" maxlength="6" disabled> frames
+									<span id="pledgeClick" class="clickme hidden">
+										<span id="pledgeClickText">Pledge</span>
+										<img id="pledgeClickIcon" class="hidden" src="img/pledge.png" alt="">
+									</span>
+								</td>
+							</tr>
+							<tr>
+								<td>Wrinklers munching</td>
+								<td>
+									<select id="numWrinklersSel" disabled></select>
+									<span id="popWrinklers" class="clickme hidden">Pop</span>
+								</td>
+							</tr>
+							<tr>
+								<td><label for="cooksMunchedSaved">Cookies munched</label></td>
+								<td id="cooksMunched">
+									<input id="cooksMunchedSaved" class="exp" disabled>
+									<span id="cooksMunchedAdd" class="clickme hidden">(+...)</span>
+								</td>
+							</tr>
+							<tr>
+								<td><label for="wrinklersPopped">Wrinklers popped</label></td>
+								<td><input id="wrinklersPopped" disabled></td>
+							</tr>
+							<tr>
+								<td><label for="cooksMunchedAll">Cookies munched (total)</label></td>
+								<td><input id="cooksMunchedAll" class="exp" disabled></td>
+							</tr>
+						</tbody></table>
+					</div>
+
+					<div>
+						<strong>Version and dates</strong>
+							<table><tbody>
+							<tr>
+								<td><label for="versionIn">Version:</label></td>
+								<td>
+									<input id="versionIn" class="deci" disabled>
+									<span id="offVerse" class="clickme hidden"></span>
+								</td>
+							</tr>
+							<tr>
+								<td><label for="saveCreationTime">Legacy start time</label></td>
+								<td id="saveCreationCell">
+									<input id="saveCreationTime" class="date">
+									<small>
+										<a id="timeHelp" href="http://www.epochconverter.com/" target="_blank">
+											[?]
+										</a>
+									</small>
+								</td>
+							</tr>
+							<tr>
+								<td><label for="sessionStartTime">Session start time</label></td>
+								<td id="sessionStartCell"><input id="sessionStartTime" class="date"></td>
+							</tr>
+							<tr>
+								<td><label for="lastSavedTime">Last save time</label></td>
+								<td>
+									<div>
+										<input id="lastSavedTime" class="date">
+										<label for="lastSavedCheck">
+											<input id="lastSavedCheck" type="checkbox">
+											Overwrite on export
+										</label>
+									</div>
+								</td>
+							</tr>
+						</tbody></table>
+					</div>
+
+					<div>
+						<strong>Seasons</strong>
+						<table><tbody>
+							<tr>
+								<td>Season</td>
+								<td>
+									<select id="seasonSel" disabled>
+										<option value="">None</option>
+										<option value="halloween">Halloween</option>
+										<option value="christmas">Christmas</option>
+										<option value="valentines">Valentine's Day</option>
+										<option value="fools">Business Day</option>
+										<option value="easter">Easter</option>
+									</select>
+									<span id="seasonSet" class="clickme hidden">
+										Change season
+									</span>
+								</td>
+							</tr>
+							<tr>
+								<td><label for="seasonTime">Season time remaining</label></td>
+								<td id="seasonTimeCell">
+									<input id="seasonTime" maxlength="7" disabled> frames
+									<span id="seasonTimeClick" class="clickme hidden">Reset</span>
+								</td>
+							</tr>
+							<tr>
+								<td><label for="seasonCount">Season changes</label></td>
+								<td>
+									<input id="seasonCount" disabled>
+									(Next change price: <span id="nextSeason">11,111,111,111</span>)
+								</td>
+							</tr>
+							<tr>
+								<td>Santa's level</td>
+								<td>
+									<select id="santaLevel">
+										<option>---</option>
+									</select>
+									<span id="santaClick" class="clickme hidden">
+										<span id="nextSanta">Next level</span>
+										price: <span id="santaPrice">0</span>
+									</span>
+								</td>
+							</tr>
+							<tr>
+								<td><label for="reinClicks">Reindeer clicked</label></td>
+								<td><input id="reinClicks"></td>
+							</tr>
+						</tbody></table>
+					</div>
+				</div>
+			</div>
+
+			<div id="buildings" class="tabDiv hidden">
+				<h2>Buildings</h2>
+				<div>
+					<label for="foolsNameCheck">
+						<input id="foolsNameCheck" type="checkbox">
+						Show Business Day names
+					</label>&nbsp;|&nbsp;
+					<span title="Ctrl-, alt-, and/or shift-click to do the opposite.">
+						-/+ buttons:
+						<label for="plusMinus1">
+							<input id="plusMinus1" type="radio" name="plusMinusCheck" checked>
+							1
+						</label>
+						<label for="plusMinus10">
+							<input id="plusMinus10" type="radio" name="plusMinusCheck">
+							10
+						</label>
+					</span>
+				</div><br>
+				<table id="buildTable">
+					<thead><tr>
+						<th></th><th>Current</th><th>All</th>
+						<th>Cookies baked</th><th class="spec hidden"></th><th>Price</th>
+					</tr></thead>
+					<tbody></tbody>
+				</table>
+			</div>
+
+			<div id="upgrades" class="tabDiv hidden">
+				<h2>Upgrades</h2>
+				<div>
+					<label id="lockCheckSpan" for="lockCheck">
+						<input id="lockCheck" type="checkbox">
+						Toggle locks on click
+					</label>&nbsp;
+					<a id="upgradeLockAll">Lock all upgrades</a>
+					<a id="upgradeDisableAll">Disable all ugprades</a>
+					<a id="upgradeUnlockAll">Unlock all upgrades</a>
+					<a id="upgradeEnableAll">Enable all upgrades</a>
+				</div><br>
+				<div class="numSum">
+					Unlocked: <span id="numUpgrades">0 / 0 (0%)</span>
+				</div><br>
+				<div id="upgradeIcons">
+					<div id="upgradeNorm"></div>
+					<h2>Cookies</h2>
+					<div id="upgradeCookies"></div>
+					<div id="upgradeDebugBlock" class="hidden">
+						<h2>Debug</h2>
+						<div id="upgradeDebug"></div>
+					</div>
+				</div>
+			</div>
+
+			<div id="achieves" class="tabDiv hidden">
+				<h2>Achievements</h2>
+				<div>
+					<a id="achDisableAll">Disable all achievements</a>
+					<a id="achAward">Award achievements</a>
+					<a id="achEnableAll">Enable all achievements</a>
+				</div><br>
+				<div class="numSum">
+					Unlocked: <span id="numAch">0 / 0 (0%)</span><br>
+					Milk: <span id="achMilk">0% (plain milk)</span>
+				</div><br>
+				<div id="achIcons">
+					<div id="achNorm"></div>
+					<h2>Shadow</h2>
+					<div id="achShadow"></div>
+				</div>
+			</div>
+		</div><br>
+	</form>
+
+	<p>
+		<a href="http://orteil.dashnet.org/cookieclicker/" target="_blank">Cookie Clicker</a>
+		&copy; Orteil at
+		<a href="http://orteil.dashnet.org/" target="_blank">http://orteil.dashnet.org/</a>.
+	</p>
+	<p>
+		By
+		<a href="https://coderpatsy.bitbucket.io" target="_blank">patsy</a>.
+		For game version <strong id="pVersion">1.0466</strong>.<br>
+		Looking for version <a href="../editor.html">2</a>?
+	</p>
+
+	<script src="../../lib/base64.js"></script>
+	<script src="editor.js"></script>
+	<script src="editorstart.js"></script>
+</body>
+</html>

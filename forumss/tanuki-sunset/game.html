@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title class="cloak">Tanuki Sunset</title>
+    <link class="favicon" rel="shortcut icon" href="/logo.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/style.css" />
+    <script src="js/UnityLoader.js"></script>
+<!-- Get FUCKED itch io :3 ~BRuve -->
+ <!--Removes itch ios sitelock--> <script>(function(){const orig={location:window.location.href,assign:window.location.assign,replace:window.location.replace,reload:window.location.reload,pushState:history.pushState,replaceState:history.replaceState};Object.defineProperty(window,'location',{get:()=>({...window.location,assign:()=>{},replace:()=>{},reload:()=>{},href:orig.location}),set:()=>false});window.location.assign=window.location.replace=window.location.reload=()=>{};history.pushState=history.replaceState=()=>{};window.addEventListener('beforeunload',e=>{e.preventDefault();e.returnValue='';return''});document.addEventListener('click',e=>{e.preventDefault();e.stopPropagation()},true);window.open=()=>null;Object.freeze(window.location);})();</script>
+   <script>
+      var gameInstance = UnityLoader.instantiate("gameContainer", "tanuki.json");
+    </script>
+  </head>
+  <body style="margin: 0; overflow: hidden;">
+    <div class="webgl-content">
+      <div id="gameContainer" style="width: 100%; height: 100%; margin: 0;"></div>
+    </div>
+  </body>
+</html>

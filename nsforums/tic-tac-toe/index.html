@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tic Tac Toe</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body, html {
+      height: 100%;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Roboto', sans-serif;
+      background: #1a1a1a;
+      color: #ffffff;
+      overflow: hidden;
+    }
+    #loading-screen {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #121212;
+      z-index: 1000;
+      opacity: 1;
+      transition: opacity 0.5s ease;
+    }
+    #loading-screen.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+    #loading-screen .tips {
+      margin-top: 20px;
+      font-size: 0.9em;
+      text-align: center;
+    }
+    #menu {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      animation: fadeIn 1s ease-in-out;
+      color: #ffffff;
+    }
+    #menu h1 {
+      font-size: 3.5em;
+      margin-bottom: 30px;
+      color: #e0e0e0;
+      font-weight: 700;
+    }
+    #game-container {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      animation: fadeIn 1s ease-in-out;
+    }
+    #game-board {
+      display: grid;
+      grid-template-columns: repeat(3, 100px);
+      grid-gap: 10px;
+      margin-top: 20px;
+    }
+    .cell {
+      width: 100px;
+      height: 100px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 2em;
+      cursor: pointer;
+      background-color: #333333;
+      border: 2px solid #444444;
+      color: #ffffff;
+      transition: background-color 0.3s, transform 0.3s;
+      border-radius: 8px;
+    }
+    .cell:hover {
+      background-color: #555555;
+      transform: scale(1.1);
+    }
+    .btn-custom {
+      margin: 10px 0;
+      background: linear-gradient(45deg, #3a3a3a, #1a1a1a);
+      border: none;
+      color: white;
+      padding: 12px 24px;
+      font-size: 1.2em;
+      font-weight: 700;
+      cursor: pointer;
+      border-radius: 12px;
+      transition: background 0.3s, transform 0.3s;
+    }
+    .btn-custom:hover {
+      background: linear-gradient(45deg, #1a1a1a, #ffffff);
+      transform: scale(1.05);
+    }
+    .modal-content {
+      background-color: #333;
+      border: 1px solid #444;
+      color: #fff;
+    }
+    .modal-header, .modal-footer {
+      border-color: #444;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <div id="loading-screen">
+    <div class="spinner-border text-light" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+    <div class="tips" id="loading-tips">
+      <!-- Tips will be inserted here -->
+    </div>
+  </div>
+
+  <div id="menu">
+    <h1>Tic Tac Toe</h1>
+    <button class="btn btn-custom" onclick="showGame('friend')">Play with Friend</button>
+    <button class="btn btn-custom" onclick="showGame('ai')">Play with AI</button>
+    <button class="btn btn-custom" onclick="showCredits()">Credits</button>
+  </div>
+
+  <div id="game-container">
+    <div id="controls">
+      <button class="btn btn-secondary" onclick="backToMenu()">Back to Menu</button>
+    </div>
+    <div id="game-board"></div>
+  </div>
+
+  <!-- Modals -->
+  <div class="modal fade" id="gameResultModal" tabindex="-1" role="dialog" aria-labelledby="gameResultModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="gameResultModalLabel">Game Over</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" id="gameResultBody">
+          <!-- Game result message will be inserted here -->
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="creditsModal" tabindex="-1" role="dialog" aria-labelledby="creditsModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="creditsModalLabel">Credits</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>Tic Tac Toe Game</p>
+          <p>Developed by BRuve</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script>
+    let board = ['', '', '', '', '', '', '', '', ''];
+    let currentPlayer = 'O'; // AI always starts first
+    let gameMode = 'friend';
+    let gameOver = false;
+    let tips = [
+      "Developed by BRuve.",
+      "Developed by BRuve.",
+      "If you have two in a row, try to place your mark in the third spot to win.",
+      "Block your opponent if they have two in a row."
+    ];
+    let currentTipIndex = 0;
+
+    window.onload = function() {
+      setTimeout(() => {
+        document.getElementById('loading-screen').classList.add('hidden');
+        document.getElementById('menu').style.display = 'flex';
+      }, 10000);
+
+      showNextTip();
+    };
+
+    function showNextTip() {
+      if (tips.length > 0) {
+        document.getElementById('loading-tips').textContent = tips[currentTipIndex];
+        currentTipIndex = (currentTipIndex + 1) % tips.length;
+      }
+    }
+
+    function showGame(mode) {
+      gameMode = mode;
+      startGame(mode);
+      document.getElementById('menu').style.display = 'none';
+      document.getElementById('game-container').style.display = 'flex';
+    }
+
+    function startGame(mode) {
+      gameMode = mode;
+      board = ['', '', '', '', '', '', '', '', ''];
+      currentPlayer = 'O'; // AI starts first
+      gameOver = false;
+      renderBoard();
+      if (gameMode === 'ai') {
+        aiMove(); // AI makes the first move in single-player mode
+      }
+    }
+
+    function renderBoard() {
+      const boardDiv = document.getElementById('game-board');
+      boardDiv.innerHTML = '';
+      board.forEach((cell, index) => {
+        const cellDiv = document.createElement('div');
+        cellDiv.classList.add('cell');
+        cellDiv.textContent = cell;
+        cellDiv.addEventListener('click', () => makeMove(index));
+        boardDiv.appendChild(cellDiv);
+      });
+    }
+
+    function makeMove(index) {
+      if (board[index] || gameOver) return;
+
+      board[index] = currentPlayer;
+      renderBoard();
+
+      if (checkWinner()) {
+        showResultModal(`${currentPlayer} wins!`);
+        gameOver = true;
+        return;
+      }
+
+      if (board.every(cell => cell !== '')) {
+        showResultModal("It's a tie!");
+        gameOver = true;
+        return;
+      }
+
+      currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+      if (gameMode === 'ai' && currentPlayer === 'O') {
+        setTimeout(aiMove, 500);
+      }
+    }
+
+    function checkWinner() {
+      const winningCombinations = [
+        [0, 1, 2], [3, 4, 5], [6, 7, 8], // rows
+        [0, 3, 6], [1, 4, 7], [2, 5, 8], // columns
+        [0, 4, 8], [2, 4, 6] // diagonals
+      ];
+      return winningCombinations.some(combination => {
+        const [a, b, c] = combination;
+        return board[a] && board[a] === board[b] && board[a] === board[c];
+      });
+    }
+
+    function showResultModal(message) {
+      document.getElementById('gameResultBody').textContent = message;
+      $('#gameResultModal').modal('show');
+    }
+
+    function backToMenu() {
+      document.getElementById('game-container').style.display = 'none';
+      document.getElementById('menu').style.display = 'flex';
+    }
+
+    function showCredits() {
+      $('#creditsModal').modal('show');
+    }
+
+    function aiMove() {
+      if (gameOver) return;
+
+      const winningCombinations = [
+        [0, 1, 2], [3, 4, 5], [6, 7, 8], // rows
+        [0, 3, 6], [1, 4, 7], [2, 5, 8], // columns
+        [0, 4, 8], [2, 4, 6] // diagonals
+      ];
+
+      // Check if AI can win immediately
+      let move = findBestMove('O', 'X', winningCombinations);
+      if (move !== null) {
+        makeMove(move);
+        return;
+      }
+
+      // Block player's winning move
+      move = findBestMove('X', 'O', winningCombinations);
+      if (move !== null) {
+        makeMove(move);
+        return;
+      }
+
+      // Take center if available
+      if (board[4] === '') {
+        makeMove(4);
+        return;
+      }
+
+      // Take a corner if available
+      const corners = [0, 2, 6, 8];
+      const availableCorners = corners.filter(index => board[index] === '');
+      if (availableCorners.length > 0) {
+        makeMove(availableCorners[Math.floor(Math.random() * availableCorners.length)]);
+        return;
+      }
+
+      // Take an edge if available
+      const edges = [1, 3, 5, 7];
+      const availableEdges = edges.filter(index => board[index] === '');
+      if (availableEdges.length > 0) {
+        makeMove(availableEdges[Math.floor(Math.random() * availableEdges.length)]);
+        return;
+      }
+
+      // Take a random empty cell
+      const emptyCells = board.map((cell, index) => cell === '' ? index : null).filter(index => index !== null);
+      if (emptyCells.length > 0) {
+        makeMove(emptyCells[Math.floor(Math.random() * emptyCells.length)]);
+      }
+    }
+
+    function findBestMove(player, opponent, winningCombinations) {
+      for (const [a, b, c] of winningCombinations) {
+        if (board[a] === player && board[b] === player && board[c] === '') return c;
+        if (board[a] === player && board[b] === '' && board[c] === player) return b;
+        if (board[a] === '' && board[b] === player && board[c] === player) return a;
+      }
+      return null;
+    }
+  </script>
+</body>
+</html>

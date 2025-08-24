@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirecting...</title>
+    
+    <!-- Note: Meta refresh removed to allow JavaScript control -->
+    
+    <!-- Additional meta tags for SEO -->
+    <meta name="description" content="This page automatically redirects to the main website.">
+    <meta name="robots" content="noindex, nofollow">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, system-ui, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: #000;
+            color: #fff;
+            overflow: hidden;
+        }
+        
+        .redirect-container {
+            text-align: center;
+            position: relative;
+            max-width: 400px;
+            animation: fadeIn 0.8s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 300;
+            letter-spacing: -0.02em;
+            margin-bottom: 2rem;
+            background: linear-gradient(135deg, #fff 0%, #999 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .progress-bar {
+            width: 200px;
+            height: 2px;
+            background: #333;
+            margin: 0 auto 2rem;
+            border-radius: 1px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #fff 0%, #666 100%);
+            width: 0%;
+            border-radius: 1px;
+            animation: progress 3s ease-out forwards;
+        }
+        
+        @keyframes progress {
+            to { width: 100%; }
+        }
+        
+        .status-text {
+            font-size: 0.9rem;
+            font-weight: 400;
+            color: #999;
+            margin-bottom: 1rem;
+            letter-spacing: 0.05em;
+        }
+        
+        .countdown-number {
+            font-size: 3rem;
+            font-weight: 200;
+            color: #fff;
+            margin-bottom: 1rem;
+            font-feature-settings: 'tnum';
+            transition: all 0.3s ease;
+        }
+        
+        .manual-link {
+            color: #666;
+            text-decoration: none;
+            font-size: 0.85rem;
+            border-bottom: 1px solid transparent;
+            transition: all 0.3s ease;
+            letter-spacing: 0.02em;
+        }
+        
+        .manual-link:hover {
+            color: #fff;
+            border-bottom-color: #fff;
+        }
+        
+        .grid-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: gridMove 20s linear infinite;
+            z-index: -1;
+        }
+        
+        @keyframes gridMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+    </style>
+</head>
+<body>
+    <div class="grid-bg"></div>
+    <div class="redirect-container">
+        <h1>Redirecting</h1>
+        <div class="progress-bar">
+            <div class="progress-fill"></div>
+        </div>
+        <div class="status-text">PREPARING REDIRECT</div>
+        <div class="countdown-number" id="countdown">3</div>
+        <a href="https://www.example.com" class="manual-link">Click here if not redirected</a>
+    </div>
+
+    <script>
+        let seconds = 3;
+        const countdownElement = document.getElementById('countdown');
+        
+        // Determine redirect destination (30% chance of error)
+        const redirectToError = Math.random() < 0.3;
+        const redirectUrl = redirectToError ? 
+            'err.html' : 
+            'https://gndoipgnbi.icu/nsapps/test/home.html';
+        
+        const timer = setInterval(() => {
+            seconds--;
+            countdownElement.textContent = seconds;
+            
+            // Add subtle scale animation on number change
+            countdownElement.style.transform = 'scale(1.1)';
+            setTimeout(() => {
+                countdownElement.style.transform = 'scale(1)';
+            }, 150);
+            
+            if (seconds <= 0) {
+                clearInterval(timer);
+                countdownElement.textContent = '0';
+            }
+        }, 1000);
+        
+        // Redirect after 3 seconds
+        setTimeout(() => {
+            window.location.href = redirectUrl;
+        }, 3000);
+    </script>
+</body>
+</html>

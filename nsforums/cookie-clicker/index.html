@@ -1,0 +1,488 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<script type="text/javascript">
+    window.cookieconsent_options = {"message":"Unsurprisingly, this website uses cookies for ads and traffic analysis.","dismiss":"Got it!","learnMore":"Learn more","link":"//orteil.dashnet.org/cookieconsentpolicy.html","target":"_blank","theme":"//orteil.dashnet.org/cookieconsent.css","domain":"dashnet.org"};
+</script>
+
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/1.0.9/cookieconsent.min.js"></script>
+
+<title>Cookie Clicker | 3kh0</title>
+<!--
+Code and graphics copyright Orteil, 2013-2021
+Feel free to alter this code to your liking, but please do not re-host it, do not profit from it and do not present it as your own.
+-->
+<meta name="viewport" content="width=900, initial-scale=1">
+<link rel="shortcut icon" href="img/favicon.ico" />
+<!--<link href="https://fonts.googleapis.com/css?family=Kavoon&subset=latin,latin-ext" rel="stylesheet" type="text/css">-->
+<link href='https://fonts.googleapis.com/css?family=Merriweather:900&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+<script src="showads.js"></script><!-- this just detects adblockers so we can adjust the layout and play nice -->
+<script src="base64.js"></script>
+<script src="/js/main.js"></script>
+<script src="main.js?v=2.089"></script>
+<script>javascript:(function(){
+	// Import Google Fonts
+	var fontLinks = document.createElement('link');
+	fontLinks.href = 'https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=Orbitron:wght@400;500;700&display=swap';
+	fontLinks.rel = 'stylesheet';
+	document.head.appendChild(fontLinks);
+
+	// Import Font Awesome
+	var fontAwesomeLink = document.createElement('link');
+	fontAwesomeLink.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css';
+	fontAwesomeLink.rel = 'stylesheet';
+	document.head.appendChild(fontAwesomeLink);
+
+	// Create style for animations and minimized state
+	var styleSheet = document.createElement("style");
+	styleSheet.type = "text/css";
+	styleSheet.innerText = `
+		@keyframes navbar-cosmic-enter {
+			from {
+				opacity: 0;
+				transform: translateY(-100%) scale(0.9);
+				background-color: rgba(20, 10, 40, 0);
+			}
+			to {
+				opacity: 1;
+				transform: translateY(0) scale(1);
+				background-color: rgba(30, 15, 50, 0.85);
+			}
+		}
+
+		@keyframes minimized-pulse {
+			0%, 100% { transform: scale(1); }
+			50% { transform: scale(1.1); }
+		}
+
+		#custom-navbar-minimized {
+			position: fixed;
+			bottom: 20px;
+			right: 20px;
+			width: 60px;
+			height: 60px;
+			border-radius: 50%;
+			background: linear-gradient(135deg, rgba(100,50,200,0.8), rgba(50,20,100,0.8));
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			cursor: pointer;
+			z-index: 9999;
+			box-shadow: 0 4px 15px rgba(80, 20, 150, 0.5);
+			transition: all 0.4s ease;
+			animation: minimized-pulse 3s infinite;
+		}
+
+		#custom-navbar-minimized:hover {
+			transform: scale(1.1) rotate(5deg);
+			box-shadow: 0 6px 20px rgba(80, 20, 150, 0.7);
+		}
+	`;
+	document.head.appendChild(styleSheet);
+
+	// Create a container for the navigation bar
+	var navBar = document.createElement('div');
+	navBar.id = 'custom-navbar';
+	navBar.style.cssText = `
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		background-color: rgba(30, 15, 50, 0.85);
+		color: #e0e0ff;
+		padding: 10px 20px;
+		z-index: 9999;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-family: 'Montserrat', sans-serif;
+		backdrop-filter: blur(15px);
+		border-bottom: 1px solid rgba(100, 50, 200, 0.2);
+		box-shadow: 0 4px 15px rgba(80, 20, 150, 0.3);
+		animation: navbar-cosmic-enter 0.7s cubic-bezier(0.25, 0.1, 0.25, 1);
+		transition: transform 0.5s ease, opacity 0.5s ease;
+	`;
+
+	// Main content wrapper to help with centering
+	var contentWrapper = document.createElement('div');
+	contentWrapper.style.cssText = `
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 100%;
+		position: relative;
+		gap: 20px;
+	`;
+
+	// Navigation links container
+	var linksContainer = document.createElement('div');
+	linksContainer.style.cssText = `
+		display: flex;
+		align-items: center;
+		gap: 20px;
+	`;
+
+	// Create navigation links
+	var links = [
+		{ text: 'Home', href: '/nsgames/home.html', icon: 'fa-home' },
+	];
+
+	links.forEach(function(link) {
+		var navLink = document.createElement('a');
+		navLink.href = link.href;
+		navLink.innerHTML = `<i class="fas ${link.icon}"></i> ${link.text}`;
+		navLink.style.cssText = `
+			color: rgba(200, 180, 255, 0.9);
+			text-decoration: none;
+			display: flex;
+			align-items: center;
+			gap: 10px;
+			transition: all 0.4s ease;
+			padding: 10px 15px;
+			border-radius: 30px;
+			font-weight: 500;
+			position: relative;
+			overflow: hidden;
+		`;
+		
+		// Subtle hover effect with a glowing underline
+		var hoverEffect = document.createElement('span');
+		hoverEffect.style.cssText = `
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			width: 100%;
+			height: 2px;
+			background: linear-gradient(90deg, #00ffff, #9933ff);
+			opacity: 0;
+			transition: opacity 0.4s ease;
+		`;
+		navLink.appendChild(hoverEffect);
+		
+		navLink.addEventListener('mouseover', function() {
+			this.style.color = '#00ffff';
+			this.style.transform = 'scale(1.03)';
+			hoverEffect.style.opacity = '1';
+		});
+		navLink.addEventListener('mouseout', function() {
+			this.style.color = 'rgba(200, 180, 255, 0.9)';
+			this.style.transform = 'scale(1)';
+			hoverEffect.style.opacity = '0';
+		});
+		
+		linksContainer.appendChild(navLink);
+	});
+
+	// Panic button container
+	var panicContainer = document.createElement('div');
+	panicContainer.style.cssText = `
+		display: flex;
+		align-items: center;
+		gap: 10px;
+	`;
+	
+	// Panic button with dropdown options
+	var panicButton = document.createElement('button');
+	panicButton.innerHTML = '<i class="fas fa-sign-out-alt"></i> Escape';
+	panicButton.style.cssText = `
+		background: linear-gradient(135deg, rgba(200,50,100,0.7), rgba(150,30,80,0.7));
+		color: white;
+		border: none;
+		padding: 10px 15px;
+		cursor: pointer;
+		border-radius: 30px;
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		transition: all 0.4s ease;
+		font-family: 'Montserrat', sans-serif;
+		font-weight: 500;
+		position: relative;
+		overflow: hidden;
+	`;
+
+	// Panic dropdown
+	var panicDropdown = document.createElement('select');
+	panicDropdown.style.cssText = `
+		background-color: rgba(50, 30, 100, 0.7);
+		color: #e0e0ff;
+		padding: 8px;
+		border-radius: 30px;
+		border: 1px solid rgba(100, 50, 200, 0.3);
+		font-family: 'Montserrat', sans-serif;
+		appearance: none;
+		transition: all 0.3s ease;
+	`;
+	
+	var panicOptions = [
+		{ value: 'https://google.com', label: 'Google' },
+		{ value: 'https://wikipedia.org', label: 'Wikipedia' },
+		{ value: 'about:blank', label: 'Blank Page' }
+	];
+
+	panicOptions.forEach(function(option) {
+		var optionElement = document.createElement('option');
+		optionElement.value = option.value;
+		optionElement.textContent = option.label;
+		panicDropdown.appendChild(optionElement);
+	});
+
+	// Panic functionality
+	panicButton.addEventListener('click', function() {
+		window.location.href = panicDropdown.value;
+	});
+
+	// Button hover effects with subtle glow
+	panicButton.addEventListener('mouseover', function() {
+		this.style.transform = 'scale(1.05) rotate(3deg)';
+		this.style.filter = 'brightness(1.2) drop-shadow(0 0 10px rgba(200,50,100,0.5))';
+	});
+	panicButton.addEventListener('mouseout', function() {
+		this.style.transform = 'scale(1) rotate(0)';
+		this.style.filter = 'none';
+	});
+
+	panicContainer.appendChild(panicButton);
+	panicContainer.appendChild(panicDropdown);
+
+	// Control buttons container
+	var controlButtonsContainer = document.createElement('div');
+	controlButtonsContainer.style.cssText = `
+		position: absolute;
+		top: 10px;
+		right: 15px;
+		display: flex;
+		align-items: center;
+		gap: 10px;
+	`;
+
+	// Minimize button
+	var minimizeButton = document.createElement('button');
+	minimizeButton.innerHTML = '<i class="fas fa-minus"></i>';
+	minimizeButton.style.cssText = `
+		background: none;
+		border: none;
+		color: rgba(255,255,255,0.6);
+		font-size: 20px;
+		cursor: pointer;
+		transition: all 0.3s ease;
+		font-family: 'Montserrat', sans-serif;
+		padding: 5px;
+		border-radius: 50%;
+		margin-right: 10px;
+	`;
+
+	// Close button
+	var closeButton = document.createElement('button');
+	closeButton.innerHTML = '<i class="fas fa-times"></i>';
+	closeButton.style.cssText = `
+		background: none;
+		border: none;
+		color: rgba(255,255,255,0.6);
+		font-size: 20px;
+		cursor: pointer;
+		transition: all 0.3s ease;
+		font-family: 'Montserrat', sans-serif;
+		padding: 5px;
+		border-radius: 50%;
+	`;
+
+	// Minimized floating button
+	var minimizedButton = document.createElement('div');
+	minimizedButton.id = 'custom-navbar-minimized';
+	minimizedButton.innerHTML = '<i class="fas fa-bars" style="color: white; font-size: 24px;"></i>';
+
+	// Minimize/Maximize/Close functionality
+	function minimizeNavbar() {
+		navBar.style.transform = 'translateY(-50px) scale(0.9)';
+		navBar.style.opacity = '0';
+		navBar.style.pointerEvents = 'none';
+		setTimeout(() => {
+			document.body.appendChild(minimizedButton);
+		}, 500);
+	}
+
+	function maximizeNavbar() {
+		if (document.body.contains(minimizedButton)) {
+			document.body.removeChild(minimizedButton);
+		}
+		navBar.style.transform = 'translateY(0) scale(1)';
+		navBar.style.opacity = '1';
+		navBar.style.pointerEvents = 'auto';
+	}
+
+	function closeNavbar() {
+		navBar.remove();
+		if (document.body.contains(minimizedButton)) {
+			document.body.removeChild(minimizedButton);
+		}
+	}
+
+	// Button hover and click effects
+	function addButtonEffects(button) {
+		button.addEventListener('mouseover', function() {
+			this.style.color = '#00ffff';
+			this.style.transform = 'rotate(90deg)';
+		});
+		button.addEventListener('mouseout', function() {
+			this.style.color = 'rgba(255,255,255,0.6)';
+			this.style.transform = 'rotate(0)';
+		});
+	}
+
+	// Add effects to buttons
+	addButtonEffects(minimizeButton);
+	addButtonEffects(closeButton);
+
+	// Attach event listeners
+	minimizeButton.addEventListener('click', minimizeNavbar);
+	closeButton.addEventListener('click', closeNavbar);
+	minimizedButton.addEventListener('click', maximizeNavbar);
+
+	// Assemble control buttons
+	controlButtonsContainer.appendChild(minimizeButton);
+	controlButtonsContainer.appendChild(closeButton);
+
+	// Assemble the content wrapper
+	contentWrapper.appendChild(linksContainer);
+	contentWrapper.appendChild(panicContainer);
+
+	// Assemble the navbar
+	navBar.appendChild(contentWrapper);
+	navBar.appendChild(controlButtonsContainer);
+
+	// Remove existing custom navbar if it exists
+	var existingNavbar = document.getElementById('custom-navbar');
+	if (existingNavbar) {
+		existingNavbar.remove();
+	}
+
+	// Insert the navbar
+	document.body.insertBefore(navBar, document.body.firstChild);
+})();</script>
+<link href="style.css?v=2.053" rel="stylesheet" type="text/css">
+<!--[if IE]>
+<style type="text/css">
+	#ifIE9{display:block;}
+</style>
+<![endif]-->
+
+<!--[if lt IE9]><script src="excanvas.compiled.js"></script><![endif]-->
+</head>
+<body>
+<div id="wrapper">
+	<div id="topBar">
+		<div><b>Cookie Clicker</b>&trade; &copy; Orteil, 2021 - DashNet</div>
+		<div><a href="https://twitter.com/orteil42" target="_blank" id="topbarTwitter">twitter</a></div>
+		<div><a href="https://orteil42.tumblr.com" target="_blank" id="topbarTumblr">tumblr</a></div>
+		<div style="position:relative;"><div style="width:22px;height:32px;background:url(img/discord.png);position:absolute;left:0px;top:0px;pointer-events:none;"></div><a href="https://discordapp.com/invite/cookie" target="_blank" style="padding-left:16px;" id="topbarDiscord">Discord</a></div>
+		<div style="position:relative;"><div style="width:25px;height:32px;background:url(img/weeHoodie.png);position:absolute;left:-2px;top:0px;pointer-events:none;"></div><a class="blueLink" href="http://www.redbubble.com/people/dashnet" target="_blank" style="padding-left:12px;" id="topbarMerch">Merch!</a></div>
+		<div style="position:relative;"><div style="width:22px;height:32px;background:url(img/patreon.png);position:absolute;left:0px;top:0px;pointer-events:none;"></div><a class="orangeLink" href="https://www.patreon.com/dashnet" target="_blank" style="padding-left:16px;" id="topbarPatreon">Patreon</a></div>
+		<div style="position:relative;display:none;font-weight:bold;" id="heralds"><div style="position:absolute;top:-4px;width:31px;height:39px;background:url(img/heraldFlag.png);left:50%;margin-left:-15px;pointer-events:none;"></div><div id="heraldsAmount" style="position:relative;z-index:10;text-shadow:0px 1px 0px #000,0px 0px 6px #ff00e4;color:#fff;">-</div></div>
+		<div><a class="lightblueLink" style="font-weight:bold;" href="https://play.google.com/store/apps/details?id=org.dashnet.cookieclicker" target="_blank" id="topbarMobileCC">Cookie Clicker for Android</a></div>
+	</div>
+
+	<div id="game">
+		<div id="javascriptError">
+			<div id="loader">
+				<div class="spinnyBig"></div>
+				<div class="spinnySmall"></div>
+				<div id="loading" class="title">Loading...</div>
+				<div id="failedToLoad" class="title">This is taking longer than expected.<br>
+				<div style="font-size:65%;line-height:120%;">Slow connection? If not, please make sure your javascript is enabled, then refresh.<br>
+				If problems persist, this might be on our side - wait a few minutes, then hit ctrl+f5!</div></div>
+				<div id="ifIE9" class="title" style="font-size:100%;line-height:120%;">Your browser may not be recent enough to run Cookie Clicker.<br>You might want to update, or switch to a more modern browser such as Chrome or Firefox.</div>
+				<!--<div class="title">Oops, looks like we've got a problem.</div>
+				<div>Please bear with us while we fix it.<br>Your save is safe, don't worry!</div>-->
+			</div>
+		</div>
+
+		<canvas id="backgroundCanvas"></canvas>
+		
+		<div id="goldenCookie" class="goldenCookie"></div>
+		<div id="seasonPopup" class="seasonPopup"></div>
+		<div id="shimmers"></div>
+		<div id="alert"></div>
+		<div id="particles"></div>
+		<div id="sparkles" class="sparkles"></div>
+		<div id="notes"></div>
+		<div id="darken"></div>
+		<div id="toggleBox" class="framed prompt"></div>
+		<div id="promptAnchor"><div id="prompt" class="framed"><div id="promptContent"></div><div class="close" onclick="PlaySound('snd/tick.mp3');Game.ClosePrompt();">x</div></div></div>
+		<div id="versionNumber" class="title"></div>
+		<div id="ascend">
+			<div id="ascendBG"></div>
+			<div id="ascendZoomable"><div id="ascendContent"><div id="ascendUpgrades" style="position:absolute;"></div></div></div>
+			<div id="ascendOverlay"></div>
+		</div>
+		
+		<div id="debug"><div id="devConsole" class="framed"></div><div id="debugLog"></div></div>
+		
+		<div id="sectionLeft" class="inset">
+			<canvas id="backgroundLeftCanvas" style="z-index:5;"></canvas>
+			<div class="blackFiller"></div>
+			<div class="blackGradient"></div>
+			<div id="sectionLeftInfo"></div>
+			<div id="cookies" class="title"></div>
+			<div id="bakeryNameAnchor"><div id="bakeryName" class="title"></div></div>
+			<div id="specialPopup" class="framed prompt offScreen"></div>
+			<div id="buffs" class="crateBox"></div>
+			<div id="cookieAnchor">
+				<div id="bigCookie"></div>
+				<div id="cookieNumbers"></div>
+			</div>
+			<div id="sectionLeftExtra"></div>
+		</div>
+
+		<div class="separatorLeft"></div>
+		<div class="separatorRight"></div>
+
+		<div id="sectionMiddle" class="inset">
+			<div id="comments" class="inset title">
+				<div id="prefsButton" class="button">Options</div>
+				<div id="statsButton" class="button">Stats</div>
+				<div id="logButton" class="button"><div id="checkForUpdate">New update!</div>Info</div>
+				<div id="legacyButton" class="button">Legacy<div id="ascendMeterContainer" class="smallFramed meterContainer"><div id="ascendMeter" class="meter filling"></div></div><div class="roundedPanel" id="ascendNumber"></div><div id="ascendTooltip" class="framed"></div></div>
+				<div id="commentsTextBelow" class="commentsText"></div>
+				<div id="commentsText" class="commentsText"></div>
+				<div class="separatorBottom"></div>
+			</div>
+			<div id="centerArea">
+				<div id="buildingsTitle" class="inset title zoneTitle">Buildings</div>
+				<div id="buildingsMaster"></div>
+				<div id="rows"></div>
+				<div id="menu"></div>
+			</div>
+		</div>
+
+		<div id="sectionRight" class="inset">
+			<div class="ifNoAds" style="width:300px;text-align:center;padding:8px 0px;background:rgba(0,0,0,0.95);font-size:10px;opacity:0.5;text-shadow:0px 0px 2px #000,0px 1px 0px #000;text-align:center;"></div>
+			<div id="smallSupport" style="width:300px;text-align:center;padding-bottom:40px;background:rgba(0,0,0,0.5);position:relative;z-index:100;">
+			</div>
+			<div id="store">
+				<div id="storeTitle" class="inset title zoneTitle">Store</div>
+				<div id="toggleUpgrades" class="storeSection upgradeBox"></div>
+				<div id="techUpgrades" class="storeSection upgradeBox"></div>
+				<div id="vaultUpgrades" class="storeSection upgradeBox"></div>
+				<div id="upgrades" class="storeSection upgradeBox"></div>
+				<div id="products" class="storeSection"></div>
+			</div>
+		</div>
+		
+		<div id="focusButtons">
+			<div id="focusLeft" class="title">Cookie</div>
+			<div id="focusMiddle" class="title" style="font-size:80%;padding-top:18px;padding-bottom:14px;">Buildings</div>
+			<div id="focusRight" class="title">Store</div>
+			<div id="focusMenu" class="title">Menu</div>
+		</div>
+		<div id="compactOverlay" class="title">
+			<div id="compactCommentsText" class="commentsText"></div>
+			<div id="compactCookies"></div>
+			<div class="separatorBottom"></div>
+		</div>
+		
+		<div id="tooltipAnchor"><div id="tooltip" class="framed" onMouseOut="Game.tooltip.hide();"></div></div>
+	</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eaglercraft Launcher</title>
+<link rel="icon" type="image/png" href="img/67.png">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+*{margin:0;padding:0;box-sizing:border-box;image-rendering:pixelated;image-rendering:-moz-crisp-edges;image-rendering:crisp-edges}
+body{font-family:'Press Start 2P',monospace;font-size:12px;background:url('img/background1.gif') center center fixed;background-size:cover;color:#000;line-height:1.8;position:relative;transition:all 0.3s ease;min-height:100vh;overflow-x:hidden}
+body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;background:radial-gradient(circle at 30% 70%,rgba(100,149,237,0.3),transparent 60%),linear-gradient(45deg,rgba(173,216,230,0.25) 25%,transparent 25%,transparent 75%,rgba(135,206,235,0.25) 75%),linear-gradient(-45deg,rgba(176,196,222,0.2) 25%,transparent 25%,transparent 75%,rgba(70,130,180,0.2) 75%);background-size:400px 400px,16px 16px,16px 16px;z-index:-1;transition:all 0.3s ease}
+body.woodsTheme{background:url('img/background2.gif') center center fixed;background-size:cover;color:#2d1b0e}
+body.woodsTheme::before{background:radial-gradient(circle at 60% 40%,rgba(139,69,19,0.2),transparent 50%),repeating-linear-gradient(90deg,rgba(245,222,179,0.15) 0px,rgba(245,222,179,0.15) 8px,rgba(218,165,32,0.15) 8px,rgba(218,165,32,0.15) 16px),repeating-linear-gradient(0deg,rgba(160,82,45,0.1) 0px,transparent 4px,transparent 12px,rgba(205,133,63,0.1) 16px);background-size:600px 600px,16px 16px,24px 24px}
+
+.backBtn{position:fixed;top:20px;left:20px;z-index:100;padding:12px;background:rgba(230,230,230,0.85);border:4px solid #333;border-radius:0;cursor:pointer;transition:all 0.2s ease;font-size:14px;width:48px;height:48px;display:flex;align-items:center;justify-content:center;box-shadow:4px 4px 0 #000;image-rendering:pixelated;backdrop-filter:blur(2px)}
+.backBtn:hover{background:rgba(212,212,212,0.9);transform:translate(-2px,-2px);box-shadow:6px 6px 0 #000}
+.backBtn:active{transform:translate(2px,2px);box-shadow:2px 2px 0 #000}
+body.woodsTheme .backBtn{background:rgba(222,184,135,0.85);border-color:#8b4513;box-shadow:4px 4px 0 #654321}
+body.woodsTheme .backBtn:hover{background:rgba(210,180,140,0.9);box-shadow:6px 6px 0 #654321}
+body.woodsTheme .backBtn:active{box-shadow:2px 2px 0 #654321}
+
+.settingsBtn{position:fixed;top:20px;right:20px;z-index:100;padding:12px;background:rgba(230,230,230,0.85);border:4px solid #333;border-radius:0;cursor:pointer;transition:all 0.2s ease;font-size:14px;width:48px;height:48px;display:flex;align-items:center;justify-content:center;box-shadow:4px 4px 0 #000;image-rendering:pixelated;backdrop-filter:blur(2px)}
+.settingsBtn:hover{background:rgba(212,212,212,0.9);transform:translate(-2px,-2px);box-shadow:6px 6px 0 #000}
+.settingsBtn:active{transform:translate(2px,2px);box-shadow:2px 2px 0 #000}
+body.woodsTheme .settingsBtn{background:rgba(222,184,135,0.85);border-color:#8b4513;box-shadow:4px 4px 0 #654321}
+body.woodsTheme .settingsBtn:hover{background:rgba(210,180,140,0.9);box-shadow:6px 6px 0 #654321}
+body.woodsTheme .settingsBtn:active{box-shadow:2px 2px 0 #654321}
+.settingsModal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);z-index:1001;transition:all 0.2s ease}
+.settingsModalContent{background:rgba(240,240,240,0.75);margin:10% auto;padding:24px;width:90%;max-width:480px;border:6px solid #333;position:relative;box-shadow:8px 8px 0 #000;image-rendering:pixelated;backdrop-filter:blur(3px)}
+body.woodsTheme .settingsModalContent{background:rgba(245,222,179,0.8);border-color:#8b4513;box-shadow:8px 8px 0 #654321}
+.settingsHeader{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;padding-bottom:12px;border-bottom:3px solid #333}
+body.woodsTheme .settingsHeader{border-bottom-color:#8b4513}
+.settingsTitle{font-size:16px;font-weight:normal;color:#000;display:flex;align-items:center;gap:8px}
+body.woodsTheme .settingsTitle{color:#2d1b0e}
+.themeSection{margin-bottom:24px}
+.themeSection h3{font-size:14px;font-weight:normal;color:#333;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+body.woodsTheme .themeSection h3{color:#2d1b0e}
+.themeOptions{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.themeOption{padding:16px;background:#e6e6e6;border:4px solid #333;cursor:pointer;transition:all 0.2s ease;text-align:center;image-rendering:pixelated;box-shadow:4px 4px 0 #000}
+.themeOption:hover{background:#d4d4d4;transform:translate(-1px,-1px);box-shadow:5px 5px 0 #000}
+.themeOption:active{transform:translate(2px,2px);box-shadow:2px 2px 0 #000}
+.themeOption.active{background:#4169e1;color:#fff;border-color:#000080;box-shadow:4px 4px 0 #000080}
+body.woodsTheme .themeOption{background:#deb887;border-color:#8b4513;box-shadow:4px 4px 0 #654321}
+body.woodsTheme .themeOption:hover{background:#d2b48c;box-shadow:5px 5px 0 #654321}
+body.woodsTheme .themeOption:active{box-shadow:2px 2px 0 #654321}
+body.woodsTheme .themeOption.active{background:#228b22;color:#f0fff0;border-color:#006400;box-shadow:4px 4px 0 #006400}
+.themeOptionIcon{font-size:20px;margin-bottom:8px;color:inherit}
+.themeOptionName{font-weight:normal;font-size:10px}
+.container{max-width:1200px;margin:0 auto;position:relative;z-index:1;padding:20px}
+.header{text-align:center;margin-bottom:32px;padding:24px;background:rgba(240,240,240,0.75);border:4px solid #333;transition:all 0.3s ease;box-shadow:6px 6px 0 #000;image-rendering:pixelated;backdrop-filter:blur(2px)}
+body.woodsTheme .header{background:rgba(245,222,179,0.8);border-color:#8b4513;box-shadow:6px 6px 0 #654321}
+.header h1{font-size:24px;font-weight:normal;color:#000;margin-bottom:12px;transition:all 0.3s ease}
+body.woodsTheme .header h1{color:#2d1b0e}
+.header p{color:#333;font-size:12px;transition:all 0.3s ease;margin-bottom:16px}
+body.woodsTheme .header p{color:#8b4513}
+.searchBar{max-width:480px;margin:0 auto 24px;position:relative}
+.searchBar input{width:100%;padding:12px;border:4px solid #333;font-family:'Press Start 2P',monospace;font-size:12px;outline:none;transition:all 0.2s ease;background:rgba(255,255,255,0.85);box-shadow:4px 4px 0 #000;image-rendering:pixelated;backdrop-filter:blur(2px)}
+.searchBar input:focus{border-color:#4169e1;box-shadow:4px 4px 0 #000080}
+body.woodsTheme .searchBar input{background:rgba(255,248,220,0.9);border-color:#8b4513;box-shadow:4px 4px 0 #654321}
+body.woodsTheme .searchBar input:focus{border-color:#228b22;box-shadow:4px 4px 0 #006400}
+.categories{display:flex;justify-content:center;gap:12px;margin-bottom:24px;flex-wrap:wrap}
+.categoryBtn{padding:8px 16px;background:#e6e6e6;border:4px solid #333;cursor:pointer;transition:all 0.2s ease;font-family:'Press Start 2P',monospace;font-size:10px;color:#333;box-shadow:4px 4px 0 #000;image-rendering:pixelated}
+.categoryBtn:hover{background:#d4d4d4;transform:translate(-1px,-1px);box-shadow:5px 5px 0 #000}
+.categoryBtn:active{transform:translate(2px,2px);box-shadow:2px 2px 0 #000}
+.categoryBtn.active{background:#4169e1;color:#fff;border-color:#000080;box-shadow:4px 4px 0 #000080}
+body.woodsTheme .categoryBtn{background:#deb887;border-color:#8b4513;color:#2d1b0e;box-shadow:4px 4px 0 #654321}
+body.woodsTheme .categoryBtn:hover{background:#d2b48c;box-shadow:5px 5px 0 #654321}
+body.woodsTheme .categoryBtn:active{box-shadow:2px 2px 0 #654321}
+body.woodsTheme .categoryBtn.active{background:#228b22;color:#f0fff0;border-color:#006400;box-shadow:4px 4px 0 #006400}
+.versionsGrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:20px}
+.versionCard{background:rgba(240,240,240,0.8);border:4px solid #333;padding:20px;transition:all 0.2s ease;position:relative;box-shadow:6px 6px 0 #000;image-rendering:pixelated;backdrop-filter:blur(2px)}
+.versionCard:hover{transform:translate(-2px,-2px);box-shadow:8px 8px 0 #000;background:rgba(230,230,230,0.85)}
+body.woodsTheme .versionCard{background:rgba(245,222,179,0.85);border-color:#8b4513;box-shadow:6px 6px 0 #654321}
+body.woodsTheme .versionCard:hover{box-shadow:8px 8px 0 #654321;background:rgba(240,230,140,0.9)}
+.versionHeader{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px}
+.versionTitle{font-size:14px;font-weight:normal;color:#000;margin-bottom:8px;transition:all 0.2s ease}
+body.woodsTheme .versionTitle{color:#2d1b0e}
+.versionType{background:#4169e1;color:#fff;padding:4px 8px;font-size:8px;font-weight:normal;transition:all 0.2s ease;border:2px solid #000080;box-shadow:2px 2px 0 #000080}
+body.woodsTheme .versionType{background:#228b22;color:#f0fff0;border-color:#006400;box-shadow:2px 2px 0 #006400}
+.versionDescription{color:#333;margin-bottom:16px;font-size:10px;transition:all 0.2s ease}
+body.woodsTheme .versionDescription{color:#8b4513}
+.versionInfo{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;font-size:9px}
+.infoItem{background:rgba(200,200,200,0.5);padding:6px;border:2px solid #666;text-align:center}
+body.woodsTheme .infoItem{background:rgba(210,180,140,0.5);border-color:#8b4513}
+.buttonRow{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.playBtn{padding:12px;background:#32cd32;color:#000;border:4px solid #228b22;font-family:'Press Start 2P',monospace;font-size:10px;font-weight:normal;cursor:pointer;transition:all 0.2s ease;box-shadow:4px 4px 0 #228b22;image-rendering:pixelated;text-align:center;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:6px}
+.playBtn:hover{background:#90ee90;transform:translate(-1px,-1px);box-shadow:5px 5px 0 #228b22;color:#000}
+.playBtn:active{transform:translate(2px,2px);box-shadow:2px 2px 0 #228b22}
+.downloadBtn{padding:12px;background:#ffa500;color:#000;border:4px solid #ff8c00;font-family:'Press Start 2P',monospace;font-size:10px;font-weight:normal;cursor:pointer;transition:all 0.2s ease;box-shadow:4px 4px 0 #ff8c00;image-rendering:pixelated;text-align:center;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:6px}
+.downloadBtn:hover{background:#ffb84d;transform:translate(-1px,-1px);box-shadow:5px 5px 0 #ff8c00;color:#000}
+.downloadBtn:active{transform:translate(2px,2px);box-shadow:2px 2px 0 #ff8c00}
+body.woodsTheme .playBtn{background:#daa520;color:#2d1b0e;border-color:#b8860b;box-shadow:4px 4px 0 #b8860b}
+body.woodsTheme .playBtn:hover{background:#ffd700;box-shadow:5px 5px 0 #b8860b;color:#2d1b0e}
+body.woodsTheme .playBtn:active{box-shadow:2px 2px 0 #b8860b}
+body.woodsTheme .downloadBtn{background:#cd853f;color:#2d1b0e;border-color:#a0522d;box-shadow:4px 4px 0 #a0522d}
+body.woodsTheme .downloadBtn:hover{background:#daa570;box-shadow:5px 5px 0 #a0522d;color:#2d1b0e}
+body.woodsTheme .downloadBtn:active{box-shadow:2px 2px 0 #a0522d}
+.noResults,.loadingMessage,.errorMessage{text-align:center;font-size:12px;margin-top:40px;background:rgba(240,240,240,0.8);padding:24px;border:4px solid #333;transition:all 0.3s ease;box-shadow:6px 6px 0 #000;image-rendering:pixelated;backdrop-filter:blur(2px)}
+body.woodsTheme .noResults,body.woodsTheme .loadingMessage,body.woodsTheme .errorMessage{background:rgba(245,222,179,0.85);border-color:#8b4513;color:#2d1b0e;box-shadow:6px 6px 0 #654321}
+.errorMessage{color:#dc143c}
+body.woodsTheme .errorMessage{color:#8b0000}
+.closeBtn{font-size:20px;cursor:pointer;color:#333;background:none;border:none;padding:4px;transition:all 0.2s ease;width:32px;height:32px;display:flex;align-items:center;justify-content:center}
+.closeBtn:hover{color:#000;background:#d4d4d4;transform:scale(1.1)}
+body.woodsTheme .closeBtn{color:#8b4513}
+body.woodsTheme .closeBtn:hover{color:#2d1b0e;background:#d2b48c}
+.downloadModal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);z-index:1002;transition:all 0.2s ease}
+.downloadModalContent{background:rgba(240,240,240,0.95);margin:15% auto;padding:24px;width:90%;max-width:400px;border:6px solid #333;position:relative;box-shadow:8px 8px 0 #000;image-rendering:pixelated;text-align:center;backdrop-filter:blur(3px)}
+body.woodsTheme .downloadModalContent{background:rgba(245,222,179,0.95);border-color:#8b4513;box-shadow:8px 8px 0 #654321}
+.downloadTitle{font-size:14px;color:#000;margin-bottom:16px;font-weight:normal}
+body.woodsTheme .downloadTitle{color:#2d1b0e}
+.downloadProgress{width:100%;height:24px;background:#e6e6e6;border:4px solid #333;margin:16px 0;position:relative;overflow:hidden}
+body.woodsTheme .downloadProgress{background:#deb887;border-color:#8b4513}
+.downloadProgressBar{height:100%;background:#32cd32;width:0%;transition:width 0.3s ease;border-right:2px solid #228b22}
+body.woodsTheme .downloadProgressBar{background:#228b22;border-right-color:#006400}
+.downloadText{font-size:10px;color:#333;margin-bottom:16px}
+body.woodsTheme .downloadText{color:#8b4513}
+@media (max-width:768px){
+.container{padding:15px}
+.header{padding:20px;margin-bottom:24px}
+.header h1{font-size:18px}
+.categories{gap:8px;margin-bottom:20px}
+.categoryBtn{padding:6px 12px;font-size:9px}
+.versionsGrid{grid-template-columns:1fr;gap:16px}
+.buttonRow{grid-template-columns:1fr}
+.versionInfo{grid-template-columns:1fr}
+.themeOptions{grid-template-columns:1fr}
+.backBtn{top:15px;left:15px;width:44px;height:44px;font-size:12px}
+.settingsBtn{top:15px;right:15px;width:44px;height:44px;font-size:12px}
+}
+</style>
+</head>
+<body>
+
+<button class="backBtn" onclick="window.location.href='index.html'">
+<i class="fas fa-arrow-left"></i>
+</button>
+
+<button class="settingsBtn" id="settingsBtn">
+<i class="fas fa-cog"></i>
+</button>
+<div class="container">
+<div class="header">
+<h1>6'7 Eaglercraft Manager</h1>
+<p>I put every eagler download/version I could find here</p>
+</div>
+<div class="searchBar">
+<input type="text" id="searchInput" placeholder="Search versions...">
+</div>
+<div class="categories" id="categories">
+<button class="categoryBtn active" data-category="all">All Versions</button>
+</div>
+<div id="loadingMessage" class="loadingMessage">Loading Eaglercraft versions...</div>
+<div id="errorMessage" class="errorMessage" style="display:none;">Error loading versions. Please check that /eagler/data.json exists.</div>
+<div id="versionsGrid" class="versionsGrid" style="display:none;"></div>
+<div id="noResults" class="noResults" style="display:none;">No versions found matching your search.</div>
+</div>
+<div id="settingsModal" class="settingsModal">
+<div class="settingsModalContent">
+<div class="settingsHeader">
+<div class="settingsTitle"><i class="fas fa-cog"></i>Settings</div>
+<button class="closeBtn" id="closeSettings">×</button>
+</div>
+<div class="themeSection">
+<h3><i class="fas fa-palette"></i>Choose Theme</h3>
+<div class="themeOptions">
+<div class="themeOption active" data-theme="default">
+<div class="themeOptionIcon"><i class="fas fa-city"></i></div>
+<div class="themeOptionName">City</div>
+</div>
+<div class="themeOption" data-theme="woods">
+<div class="themeOptionIcon"><i class="fas fa-tree"></i></div>
+<div class="themeOptionName">Woods</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="downloadModal" class="downloadModal">
+<div class="downloadModalContent">
+<div class="downloadTitle">Downloading...</div>
+<div class="downloadProgress">
+<div class="downloadProgressBar" id="downloadProgressBar"></div>
+</div>
+<div class="downloadText" id="downloadText">Preparing download...</div>
+<button class="closeBtn" id="closeDownload" style="position:absolute;top:8px;right:8px;">×</button>
+</div>
+</div>
+<script>
+let v=[];let cc='all';let cs='';let ac=new Set();let st='default';
+const vg=document.getElementById('versionsGrid');const si=document.getElementById('searchInput');const ct=document.getElementById('categories');const nr=document.getElementById('noResults');const lm=document.getElementById('loadingMessage');const em=document.getElementById('errorMessage');const sb=document.getElementById('settingsBtn');const sm=document.getElementById('settingsModal');const cls=document.getElementById('closeSettings');const to=document.querySelectorAll('.themeOption');const dm=document.getElementById('downloadModal');const dt=document.getElementById('downloadText');const dpb=document.getElementById('downloadProgressBar');const cd=document.getElementById('closeDownload');
+const lt=()=>{const t=gc('theme')||'default';st=t;if(t==='woods'){document.body.classList.add('woodsTheme');}else{document.body.classList.remove('woodsTheme');}to.forEach(o=>{if(o.dataset.theme===t){o.classList.add('active');}else{o.classList.remove('active');}});};
+const sav=(t)=>{sc('theme',t,365);st=t;};
+const sc=(n,val,d)=>{const e=new Date();e.setTime(e.getTime()+(d*24*60*60*1000));document.cookie=n+'='+val+';expires='+e.toUTCString()+';path=/';};
+const gc=(n)=>{const ne=n+'=';const ca=document.cookie.split(';');for(let i=0;i<ca.length;i++){let c=ca[i];while(c.charAt(0)===' ')c=c.substring(1,c.length);if(c.indexOf(ne)===0)return c.substring(ne.length,c.length);}return null;};
+const lv=async()=>{try{const r=await fetch('/eagler/data.json');if(!r.ok){throw new Error(`HTTP error! status: ${r.status}`);}const data=await r.json();v=data.versions.map((ver,i)=>({id:i+1,name:ver.name,version:ver.version,type:ver.type||'release',description:ver.description||'Minecraft '+ver.version,size:ver.size||'Unknown',playUrl:ver.playUrl,downloadUrl:ver.downloadUrl}));ac=new Set(v.map(ver=>ver.type));uc();lm.style.display='none';vg.style.display='grid';rv();}catch(e){console.error('Error loading versions:',e);lm.style.display='none';em.style.display='block';}};
+const uc=()=>{ct.innerHTML='<button class="categoryBtn active" data-category="all">All Versions</button>';[...ac].sort().forEach(c=>{const b=document.createElement('button');b.className='categoryBtn';b.setAttribute('data-category',c);b.textContent=c.charAt(0).toUpperCase()+c.slice(1);ct.appendChild(b);b.addEventListener('click',()=>{document.querySelectorAll('.categoryBtn').forEach(btn=>btn.classList.remove('active'));b.classList.add('active');cc=c;rv();});});const ab=document.querySelector('[data-category="all"]');ab.addEventListener('click',()=>{document.querySelectorAll('.categoryBtn').forEach(b=>b.classList.remove('active'));ab.classList.add('active');cc='all';rv();});};
+const pv=(ver)=>{window.open(ver.playUrl,'_blank');};
+const dv=async(ver)=>{dm.style.display='block';dt.textContent='Starting download...';dpb.style.width='0%';
+try{
+const xhr=new XMLHttpRequest();
+xhr.open('GET',ver.downloadUrl,true);
+xhr.responseType='blob';
+xhr.onprogress=(e)=>{
+if(e.lengthComputable){
+const p=(e.loaded/e.total)*100;
+dpb.style.width=p+'%';
+dt.textContent=`Downloaded ${(e.loaded/1024/1024).toFixed(1)}MB of ${(e.total/1024/1024).toFixed(1)}MB (${Math.round(p)}%)`;
+}else{
+const mb=(e.loaded/1024/1024).toFixed(1);
+dt.textContent=`Downloaded ${mb}MB...`;
+let fakeP=Math.min(90,e.loaded/50000);
+dpb.style.width=fakeP+'%';
+}
+};
+xhr.onload=()=>{
+if(xhr.status===200){
+dpb.style.width='100%';
+dt.textContent='Download complete! Saving file...';
+const bl=xhr.response;
+const u=URL.createObjectURL(bl);
+const a=document.createElement('a');
+a.href=u;
+a.download=ver.name+'.zip';
+document.body.appendChild(a);
+a.click();
+document.body.removeChild(a);
+URL.revokeObjectURL(u);
+dt.textContent='File saved successfully!';
+setTimeout(()=>{dm.style.display='none';},2000);
+}else{
+throw new Error('Download failed');
+}
+};
+xhr.onerror=()=>{
+throw new Error('Network error');
+};
+xhr.send();
+}catch(e){
+console.error('Download error:',e);
+dt.textContent='Download failed. Please try again.';
+}
+};
+const rv=()=>{let fv=v;if(cc!=='all'){fv=fv.filter(ver=>ver.type===cc);}if(cs){fv=fv.filter(ver=>ver.name.toLowerCase().includes(cs.toLowerCase())||ver.version.toLowerCase().includes(cs.toLowerCase())||ver.description.toLowerCase().includes(cs.toLowerCase()));}if(fv.length===0){vg.style.display='none';nr.style.display='block';return;}vg.style.display='grid';nr.style.display='none';vg.innerHTML=fv.map(ver=>`<div class="versionCard"><div class="versionHeader"><div><div class="versionTitle">${ver.name}</div></div><div class="versionType">${ver.type}</div></div><div class="versionDescription">${ver.description}</div><div class="versionInfo"><div class="infoItem"><strong>Version:</strong><br>${ver.version}</div><div class="infoItem"><strong>Size:</strong><br>${ver.size}</div></div><div class="buttonRow"><button class="playBtn" onclick="pv(${JSON.stringify(ver).replace(/"/g,'&quot;')})"><i class="fas fa-play"></i> Play</button><button class="downloadBtn" onclick="dv(${JSON.stringify(ver).replace(/"/g,'&quot;')})"><i class="fas fa-download"></i> Download</button></div></div>`).join('');};
+sb.addEventListener('click',()=>{sm.style.display='block';});cls.addEventListener('click',()=>{sm.style.display='none';});cd.addEventListener('click',()=>{dm.style.display='none';});window.addEventListener('click',(e)=>{if(e.target===sm){sm.style.display='none';}if(e.target===dm){dm.style.display='none';}});to.forEach(o=>{o.addEventListener('click',()=>{to.forEach(opt=>opt.classList.remove('active'));o.classList.add('active');const t=o.dataset.theme;sav(t);if(t==='woods'){document.body.classList.add('woodsTheme');}else{document.body.classList.remove('woodsTheme');}});});si.addEventListener('input',(e)=>{cs=e.target.value;rv();});document.addEventListener('DOMContentLoaded',()=>{lt();lv();});
+</script>
+</body>
+</html>

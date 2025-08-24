@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>6'7 Updates</title>
+<link rel="icon" type="image/png" href="img/67.png">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+*{margin:0;padding:0;box-sizing:border-box;image-rendering:pixelated;image-rendering:-moz-crisp-edges;image-rendering:crisp-edges}
+body{font-family:'Press Start 2P',monospace;font-size:12px;background:url('img/background1.gif') center center fixed;background-size:cover;color:#000;line-height:1.8;position:relative;transition:all 0.3s ease;min-height:100vh;overflow-x:hidden}
+body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;background:radial-gradient(circle at 30% 70%,rgba(100,149,237,0.3),transparent 60%),linear-gradient(45deg,rgba(173,216,230,0.25) 25%,transparent 25%,transparent 75%,rgba(135,206,235,0.25) 75%),linear-gradient(-45deg,rgba(176,196,222,0.2) 25%,transparent 25%,transparent 75%,rgba(70,130,180,0.2) 75%);background-size:400px 400px,16px 16px,16px 16px;z-index:-1;transition:all 0.3s ease}
+body.woodsTheme{background:url('img/background2.gif') center center fixed;background-size:cover;color:#2d1b0e}
+body.woodsTheme::before{background:radial-gradient(circle at 60% 40%,rgba(139,69,19,0.2),transparent 50%),repeating-linear-gradient(90deg,rgba(245,222,179,0.15) 0px,rgba(245,222,179,0.15) 8px,rgba(218,165,32,0.15) 8px,rgba(218,165,32,0.15) 16px),repeating-linear-gradient(0deg,rgba(160,82,45,0.1) 0px,transparent 4px,transparent 12px,rgba(205,133,63,0.1) 16px);background-size:600px 600px,16px 16px,24px 24px}
+
+.settingsBtn{position:fixed;top:20px;right:20px;z-index:100;padding:12px;background:rgba(230,230,230,0.85);border:4px solid #333;border-radius:0;cursor:pointer;transition:all 0.2s ease;font-size:14px;width:48px;height:48px;display:flex;align-items:center;justify-content:center;box-shadow:4px 4px 0 #000;image-rendering:pixelated;backdrop-filter:blur(2px)}
+.settingsBtn:hover{background:rgba(212,212,212,0.9);transform:translate(-2px,-2px);box-shadow:6px 6px 0 #000}
+.settingsBtn:active{transform:translate(2px,2px);box-shadow:2px 2px 0 #000}
+body.woodsTheme .settingsBtn{background:rgba(222,184,135,0.85);border-color:#8b4513;box-shadow:4px 4px 0 #654321}
+body.woodsTheme .settingsBtn:hover{background:rgba(210,180,140,0.9);box-shadow:6px 6px 0 #654321}
+body.woodsTheme .settingsBtn:active{box-shadow:2px 2px 0 #654321}
+
+.backBtn{position:fixed;top:20px;left:20px;z-index:100;padding:12px;background:rgba(230,230,230,0.85);border:4px solid #333;border-radius:0;cursor:pointer;transition:all 0.2s ease;font-size:14px;width:48px;height:48px;display:flex;align-items:center;justify-content:center;box-shadow:4px 4px 0 #000;image-rendering:pixelated;backdrop-filter:blur(2px)}
+.backBtn:hover{background:rgba(212,212,212,0.9);transform:translate(-2px,-2px);box-shadow:6px 6px 0 #000}
+.backBtn:active{transform:translate(2px,2px);box-shadow:2px 2px 0 #000}
+body.woodsTheme .backBtn{background:rgba(222,184,135,0.85);border-color:#8b4513;box-shadow:4px 4px 0 #654321}
+body.woodsTheme .backBtn:hover{background:rgba(210,180,140,0.9);box-shadow:6px 6px 0 #654321}
+body.woodsTheme .backBtn:active{box-shadow:2px 2px 0 #654321}
+
+.settingsModal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);z-index:1001;transition:all 0.2s ease}
+.settingsModalContent{background:rgba(240,240,240,0.75);margin:10% auto;padding:24px;width:90%;max-width:480px;border:6px solid #333;position:relative;box-shadow:8px 8px 0 #000;image-rendering:pixelated;backdrop-filter:blur(3px)}
+body.woodsTheme .settingsModalContent{background:rgba(245,222,179,0.8);border-color:#8b4513;box-shadow:8px 8px 0 #654321}
+.settingsHeader{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;padding-bottom:12px;border-bottom:3px solid #333}
+body.woodsTheme .settingsHeader{border-bottom-color:#8b4513}
+.settingsTitle{font-size:16px;font-weight:normal;color:#000;display:flex;align-items:center;gap:8px}
+body.woodsTheme .settingsTitle{color:#2d1b0e}
+.themeSection{margin-bottom:24px}
+.themeSection h3{font-size:14px;font-weight:normal;color:#333;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+body.woodsTheme .themeSection h3{color:#2d1b0e}
+.themeOptions{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.themeOption{padding:16px;background:#e6e6e6;border:4px solid #333;cursor:pointer;transition:all 0.2s ease;text-align:center;image-rendering:pixelated;box-shadow:4px 4px 0 #000}
+.themeOption:hover{background:#d4d4d4;transform:translate(-1px,-1px);box-shadow:5px 5px 0 #000}
+.themeOption:active{transform:translate(2px,2px);box-shadow:2px 2px 0 #000}
+.themeOption.active{background:#4169e1;color:#fff;border-color:#000080;box-shadow:4px 4px 0 #000080}
+body.woodsTheme .themeOption{background:#deb887;border-color:#8b4513;box-shadow:4px 4px 0 #654321}
+body.woodsTheme .themeOption:hover{background:#d2b48c;box-shadow:5px 5px 0 #654321}
+body.woodsTheme .themeOption:active{box-shadow:2px 2px 0 #654321}
+body.woodsTheme .themeOption.active{background:#228b22;color:#f0fff0;border-color:#006400;box-shadow:4px 4px 0 #006400}
+.themeOptionIcon{font-size:20px;margin-bottom:8px;color:inherit}
+.themeOptionName{font-weight:normal;font-size:10px}
+
+.container{max-width:1200px;margin:0 auto;position:relative;z-index:1;padding:20px}
+.header{text-align:center;margin-bottom:32px;padding:24px;background:rgba(240,240,240,0.75);border:4px solid #333;transition:all 0.3s ease;box-shadow:6px 6px 0 #000;image-rendering:pixelated;backdrop-filter:blur(2px)}
+body.woodsTheme .header{background:rgba(245,222,179,0.8);border-color:#8b4513;box-shadow:6px 6px 0 #654321}
+.header h1{font-size:24px;font-weight:normal;color:#000;margin-bottom:12px;transition:all 0.3s ease}
+body.woodsTheme .header h1{color:#2d1b0e}
+.header p{color:#333;font-size:12px;transition:all 0.3s ease}
+body.woodsTheme .header p{color:#8b4513}
+
+.updatesContainer{max-width:800px;margin:0 auto}
+.updateCard{background:rgba(240,240,240,0.8);border:4px solid #333;padding:24px;margin-bottom:20px;transition:all 0.2s ease;position:relative;box-shadow:6px 6px 0 #000;image-rendering:pixelated;backdrop-filter:blur(2px)}
+.updateCard:hover{transform:translate(-1px,-1px);box-shadow:7px 7px 0 #000;background:rgba(235,235,235,0.85)}
+body.woodsTheme .updateCard{background:rgba(245,222,179,0.85);border-color:#8b4513;box-shadow:6px 6px 0 #654321}
+body.woodsTheme .updateCard:hover{box-shadow:7px 7px 0 #654321;background:rgba(240,230,140,0.9)}
+
+.updateHeader{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px;flex-wrap:wrap;gap:8px}
+.updateVersion{font-size:16px;font-weight:normal;color:#000;transition:all 0.2s ease}
+body.woodsTheme .updateVersion{color:#2d1b0e}
+.updateDate{background:#4169e1;color:#fff;padding:6px 12px;font-size:8px;font-weight:normal;transition:all 0.2s ease;border:2px solid #000080;box-shadow:2px 2px 0 #000080;white-space:nowrap}
+body.woodsTheme .updateDate{background:#228b22;color:#f0fff0;border-color:#006400;box-shadow:2px 2px 0 #006400}
+
+.updateTitle{font-size:14px;color:#333;margin-bottom:12px;font-weight:normal}
+body.woodsTheme .updateTitle{color:#8b4513}
+
+.updateChanges{list-style:none;padding:0}
+.updateChanges li{color:#333;margin-bottom:8px;font-size:10px;padding-left:16px;position:relative;line-height:1.6}
+body.woodsTheme .updateChanges li{color:#8b4513}
+.updateChanges li::before{content:'▶';position:absolute;left:0;color:#4169e1;font-size:8px;top:2px}
+body.woodsTheme .updateChanges li::before{color:#228b22}
+
+.loadingMessage,.errorMessage{text-align:center;font-size:12px;margin-top:40px;background:rgba(240,240,240,0.8);padding:24px;border:4px solid #333;transition:all 0.3s ease;box-shadow:6px 6px 0 #000;image-rendering:pixelated;backdrop-filter:blur(2px)}
+body.woodsTheme .loadingMessage,body.woodsTheme .errorMessage{background:rgba(245,222,179,0.85);border-color:#8b4513;color:#2d1b0e;box-shadow:6px 6px 0 #654321}
+.errorMessage{color:#dc143c}
+body.woodsTheme .errorMessage{color:#8b0000}
+
+.closeBtn{font-size:20px;cursor:pointer;color:#333;background:none;border:none;padding:4px;transition:all 0.2s ease;width:32px;height:32px;display:flex;align-items:center;justify-content:center}
+.closeBtn:hover{color:#000;background:#d4d4d4;transform:scale(1.1)}
+body.woodsTheme .closeBtn{color:#8b4513}
+body.woodsTheme .closeBtn:hover{color:#2d1b0e;background:#d2b48c}
+
+.noUpdates{text-align:center;font-size:12px;margin-top:40px;background:rgba(240,240,240,0.8);padding:24px;border:4px solid #333;transition:all 0.3s ease;box-shadow:6px 6px 0 #000;image-rendering:pixelated;backdrop-filter:blur(2px);color:#333}
+body.woodsTheme .noUpdates{background:rgba(245,222,179,0.85);border-color:#8b4513;color:#8b4513;box-shadow:6px 6px 0 #654321}
+
+@media (max-width:768px){
+.container{padding:15px}
+.header{padding:20px;margin-bottom:24px}
+.header h1{font-size:18px}
+.updateCard{padding:20px}
+.updateHeader{flex-direction:column;align-items:flex-start;gap:12px}
+.updateVersion{font-size:14px}
+.settingsBtn,.backBtn{top:15px;width:44px;height:44px;font-size:12px}
+.backBtn{left:15px}
+.settingsBtn{right:15px}
+.themeOptions{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<button class="backBtn" onclick="window.location.href='index.html'">
+<i class="fas fa-arrow-left"></i>
+</button>
+
+<button class="settingsBtn" id="settingsBtn">
+<i class="fas fa-cog"></i>
+</button>
+
+<div class="container">
+<div class="header">
+<h1>6'7 Updates</h1>
+<p>latest news and changes</p>
+</div>
+
+<div id="loadingMessage" class="loadingMessage">Loading updates...</div>
+<div id="errorMessage" class="errorMessage" style="display:none;">Error loading updates. Please check that static/updates.json exists and is properly formatted.</div>
+<div id="updatesContainer" class="updatesContainer" style="display:none;"></div>
+<div id="noUpdates" class="noUpdates" style="display:none;">
+No updates available at this time.
+</div>
+</div>
+
+<div id="settingsModal" class="settingsModal">
+<div class="settingsModalContent">
+<div class="settingsHeader">
+<div class="settingsTitle">
+<i class="fas fa-cog"></i>
+Settings
+</div>
+<button class="closeBtn" id="closeSettings">×</button>
+</div>
+<div class="themeSection">
+<h3>
+<i class="fas fa-palette"></i>
+Choose Theme
+</h3>
+<div class="themeOptions">
+<div class="themeOption" data-theme="default">
+<div class="themeOptionIcon">
+<i class="fas fa-city"></i>
+</div>
+<div class="themeOptionName">City</div>
+</div>
+<div class="themeOption" data-theme="woods">
+<div class="themeOptionIcon">
+<i class="fas fa-tree"></i>
+</div>
+<div class="themeOptionName">Woods</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<script>
+let updates = [];
+let currentTheme = 'default';
+
+// Theme management functions
+const loadTheme = () => {
+    const theme = getCookie('theme') || 'default';
+    currentTheme = theme;
+    if (theme === 'woods') {
+        document.body.classList.add('woodsTheme');
+    } else {
+        document.body.classList.remove('woodsTheme');
+    }
+    
+    const themeOptions = document.querySelectorAll('.themeOption');
+    themeOptions.forEach(option => {
+        if (option.dataset.theme === theme) {
+            option.classList.add('active');
+        } else {
+            option.classList.remove('active');
+        }
+    });
+};
+
+const saveTheme = (theme) => {
+    setCookie('theme', theme, 365);
+    currentTheme = theme;
+};
+
+const setCookie = (name, value, days) => {
+    const expires = new Date();
+    expires.setTime(expires.getTime() + (days * 24 * 60 * 60 * 1000));
+    document.cookie = name + '=' + value + ';expires=' + expires.toUTCString() + ';path=/';
+};
+
+const getCookie = (name) => {
+    const nameEQ = name + '=';
+    const ca = document.cookie.split(';');
+    for (let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+        if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+    }
+    return null;
+};
+
+// Load updates from JSON
+const loadUpdates = async () => {
+    const loadingMessage = document.getElementById('loadingMessage');
+    const errorMessage = document.getElementById('errorMessage');
+    const updatesContainer = document.getElementById('updatesContainer');
+    const noUpdates = document.getElementById('noUpdates');
+
+    try {
+        const response = await fetch('static/updates.json');
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        updates = data.updates || [];
+        
+        loadingMessage.style.display = 'none';
+        
+        if (updates.length === 0) {
+            noUpdates.style.display = 'block';
+        } else {
+            updatesContainer.style.display = 'block';
+            renderUpdates();
+        }
+    } catch (error) {
+        console.error('Error loading updates:', error);
+        loadingMessage.style.display = 'none';
+        errorMessage.style.display = 'block';
+    }
+};
+
+// Render updates
+const renderUpdates = () => {
+    const container = document.getElementById('updatesContainer');
+    
+    container.innerHTML = updates.map(update => `
+        <div class="updateCard">
+            <div class="updateHeader">
+                <div class="updateVersion">${update.version}</div>
+                <div class="updateDate">${update.date}</div>
+            </div>
+            <div class="updateTitle">${update.title}</div>
+            <ul class="updateChanges">
+                ${update.changes.map(change => `<li>${change}</li>`).join('')}
+            </ul>
+        </div>
+    `).join('');
+};
+
+// Settings modal functionality
+const settingsBtn = document.getElementById('settingsBtn');
+const settingsModal = document.getElementById('settingsModal');
+const closeSettings = document.getElementById('closeSettings');
+const themeOptions = document.querySelectorAll('.themeOption');
+
+settingsBtn.addEventListener('click', () => {
+    settingsModal.style.display = 'block';
+});
+
+closeSettings.addEventListener('click', () => {
+    settingsModal.style.display = 'none';
+});
+
+window.addEventListener('click', (e) => {
+    if (e.target === settingsModal) {
+        settingsModal.style.display = 'none';
+    }
+});
+
+themeOptions.forEach(option => {
+    option.addEventListener('click', () => {
+        themeOptions.forEach(opt => opt.classList.remove('active'));
+        option.classList.add('active');
+        
+        const theme = option.dataset.theme;
+        saveTheme(theme);
+        
+        if (theme === 'woods') {
+            document.body.classList.add('woodsTheme');
+        } else {
+            document.body.classList.remove('woodsTheme');
+        }
+    });
+});
+
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', () => {
+    loadTheme();
+    loadUpdates();
+});
+</script>
+
+</body>
+</html>

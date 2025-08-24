@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <title>Slope 2</title>
+    <link rel="icon" type="image/png" href="/favicon.ico" />
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="style.css" />
+    <script>javascript:(function(){
+      // Import Google Fonts
+      var fontLinks = document.createElement('link');
+      fontLinks.href = 'https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=Orbitron:wght@400;500;700&display=swap';
+      fontLinks.rel = 'stylesheet';
+      document.head.appendChild(fontLinks);
+  
+      // Import Font Awesome
+      var fontAwesomeLink = document.createElement('link');
+      fontAwesomeLink.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css';
+      fontAwesomeLink.rel = 'stylesheet';
+      document.head.appendChild(fontAwesomeLink);
+  
+      // Create style for animations and minimized state
+      var styleSheet = document.createElement("style");
+      styleSheet.type = "text/css";
+      styleSheet.innerText = `
+          @keyframes navbar-cosmic-enter {
+              from {
+                  opacity: 0;
+                  transform: translateY(-100%) scale(0.9);
+                  background-color: rgba(20, 10, 40, 0);
+              }
+              to {
+                  opacity: 1;
+                  transform: translateY(0) scale(1);
+                  background-color: rgba(30, 15, 50, 0.85);
+              }
+          }
+  
+          @keyframes minimized-pulse {
+              0%, 100% { transform: scale(1); }
+              50% { transform: scale(1.1); }
+          }
+  
+          #custom-navbar-minimized {
+              position: fixed;
+              bottom: 20px;
+              right: 20px;
+              width: 60px;
+              height: 60px;
+              border-radius: 50%;
+              background: linear-gradient(135deg, rgba(100,50,200,0.8), rgba(50,20,100,0.8));
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              cursor: pointer;
+              z-index: 9999;
+              box-shadow: 0 4px 15px rgba(80, 20, 150, 0.5);
+              transition: all 0.4s ease;
+              animation: minimized-pulse 3s infinite;
+          }
+  
+          #custom-navbar-minimized:hover {
+              transform: scale(1.1) rotate(5deg);
+              box-shadow: 0 6px 20px rgba(80, 20, 150, 0.7);
+          }
+      `;
+      document.head.appendChild(styleSheet);
+  
+      // Create a container for the navigation bar
+      var navBar = document.createElement('div');
+      navBar.id = 'custom-navbar';
+      navBar.style.cssText = `
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          background-color: rgba(30, 15, 50, 0.85);
+          color: #e0e0ff;
+          padding: 10px 20px;
+          z-index: 9999;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-family: 'Montserrat', sans-serif;
+          backdrop-filter: blur(15px);
+          border-bottom: 1px solid rgba(100, 50, 200, 0.2);
+          box-shadow: 0 4px 15px rgba(80, 20, 150, 0.3);
+          animation: navbar-cosmic-enter 0.7s cubic-bezier(0.25, 0.1, 0.25, 1);
+          transition: transform 0.5s ease, opacity 0.5s ease;
+      `;
+  
+      // Main content wrapper to help with centering
+      var contentWrapper = document.createElement('div');
+      contentWrapper.style.cssText = `
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 100%;
+          position: relative;
+          gap: 20px;
+      `;
+  
+      // Navigation links container
+      var linksContainer = document.createElement('div');
+      linksContainer.style.cssText = `
+          display: flex;
+          align-items: center;
+          gap: 20px;
+      `;
+  
+      // Create navigation links
+      var links = [
+          { text: 'Home', href: '/nsgames/home.html', icon: 'fa-home' },
+      ];
+  
+      links.forEach(function(link) {
+          var navLink = document.createElement('a');
+          navLink.href = link.href;
+          navLink.innerHTML = `<i class="fas ${link.icon}"></i> ${link.text}`;
+          navLink.style.cssText = `
+              color: rgba(200, 180, 255, 0.9);
+              text-decoration: none;
+              display: flex;
+              align-items: center;
+              gap: 10px;
+              transition: all 0.4s ease;
+              padding: 10px 15px;
+              border-radius: 30px;
+              font-weight: 500;
+              position: relative;
+              overflow: hidden;
+          `;
+          
+          // Subtle hover effect with a glowing underline
+          var hoverEffect = document.createElement('span');
+          hoverEffect.style.cssText = `
+              position: absolute;
+              bottom: 0;
+              left: 0;
+              width: 100%;
+              height: 2px;
+              background: linear-gradient(90deg, #00ffff, #9933ff);
+              opacity: 0;
+              transition: opacity 0.4s ease;
+          `;
+          navLink.appendChild(hoverEffect);
+          
+          navLink.addEventListener('mouseover', function() {
+              this.style.color = '#00ffff';
+              this.style.transform = 'scale(1.03)';
+              hoverEffect.style.opacity = '1';
+          });
+          navLink.addEventListener('mouseout', function() {
+              this.style.color = 'rgba(200, 180, 255, 0.9)';
+              this.style.transform = 'scale(1)';
+              hoverEffect.style.opacity = '0';
+          });
+          
+          linksContainer.appendChild(navLink);
+      });
+  
+      // Panic button container
+      var panicContainer = document.createElement('div');
+      panicContainer.style.cssText = `
+          display: flex;
+          align-items: center;
+          gap: 10px;
+      `;
+      
+      // Panic button with dropdown options
+      var panicButton = document.createElement('button');
+      panicButton.innerHTML = '<i class="fas fa-sign-out-alt"></i> Escape';
+      panicButton.style.cssText = `
+          background: linear-gradient(135deg, rgba(200,50,100,0.7), rgba(150,30,80,0.7));
+          color: white;
+          border: none;
+          padding: 10px 15px;
+          cursor: pointer;
+          border-radius: 30px;
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          transition: all 0.4s ease;
+          font-family: 'Montserrat', sans-serif;
+          font-weight: 500;
+          position: relative;
+          overflow: hidden;
+      `;
+  
+      // Panic dropdown
+      var panicDropdown = document.createElement('select');
+      panicDropdown.style.cssText = `
+          background-color: rgba(50, 30, 100, 0.7);
+          color: #e0e0ff;
+          padding: 8px;
+          border-radius: 30px;
+          border: 1px solid rgba(100, 50, 200, 0.3);
+          font-family: 'Montserrat', sans-serif;
+          appearance: none;
+          transition: all 0.3s ease;
+      `;
+      
+      var panicOptions = [
+          { value: 'https://google.com', label: 'Google' },
+          { value: 'https://wikipedia.org', label: 'Wikipedia' },
+          { value: 'about:blank', label: 'Blank Page' }
+      ];
+  
+      panicOptions.forEach(function(option) {
+          var optionElement = document.createElement('option');
+          optionElement.value = option.value;
+          optionElement.textContent = option.label;
+          panicDropdown.appendChild(optionElement);
+      });
+  
+      // Panic functionality
+      panicButton.addEventListener('click', function() {
+          window.location.href = panicDropdown.value;
+      });
+  
+      // Button hover effects with subtle glow
+      panicButton.addEventListener('mouseover', function() {
+          this.style.transform = 'scale(1.05) rotate(3deg)';
+          this.style.filter = 'brightness(1.2) drop-shadow(0 0 10px rgba(200,50,100,0.5))';
+      });
+      panicButton.addEventListener('mouseout', function() {
+          this.style.transform = 'scale(1) rotate(0)';
+          this.style.filter = 'none';
+      });
+  
+      panicContainer.appendChild(panicButton);
+      panicContainer.appendChild(panicDropdown);
+  
+      // Control buttons container
+      var controlButtonsContainer = document.createElement('div');
+      controlButtonsContainer.style.cssText = `
+          position: absolute;
+          top: 10px;
+          right: 15px;
+          display: flex;
+          align-items: center;
+          gap: 10px;
+      `;
+  
+      // Minimize button
+      var minimizeButton = document.createElement('button');
+      minimizeButton.innerHTML = '<i class="fas fa-minus"></i>';
+      minimizeButton.style.cssText = `
+          background: none;
+          border: none;
+          color: rgba(255,255,255,0.6);
+          font-size: 20px;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          font-family: 'Montserrat', sans-serif;
+          padding: 5px;
+          border-radius: 50%;
+          margin-right: 10px;
+      `;
+  
+      // Close button
+      var closeButton = document.createElement('button');
+      closeButton.innerHTML = '<i class="fas fa-times"></i>';
+      closeButton.style.cssText = `
+          background: none;
+          border: none;
+          color: rgba(255,255,255,0.6);
+          font-size: 20px;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          font-family: 'Montserrat', sans-serif;
+          padding: 5px;
+          border-radius: 50%;
+      `;
+  
+      // Minimized floating button
+      var minimizedButton = document.createElement('div');
+      minimizedButton.id = 'custom-navbar-minimized';
+      minimizedButton.innerHTML = '<i class="fas fa-bars" style="color: white; font-size: 24px;"></i>';
+  
+      // Minimize/Maximize/Close functionality
+      function minimizeNavbar() {
+          navBar.style.transform = 'translateY(-50px) scale(0.9)';
+          navBar.style.opacity = '0';
+          navBar.style.pointerEvents = 'none';
+          setTimeout(() => {
+              document.body.appendChild(minimizedButton);
+          }, 500);
+      }
+  
+      function maximizeNavbar() {
+          if (document.body.contains(minimizedButton)) {
+              document.body.removeChild(minimizedButton);
+          }
+          navBar.style.transform = 'translateY(0) scale(1)';
+          navBar.style.opacity = '1';
+          navBar.style.pointerEvents = 'auto';
+      }
+  
+      function closeNavbar() {
+          navBar.remove();
+          if (document.body.contains(minimizedButton)) {
+              document.body.removeChild(minimizedButton);
+          }
+      }
+  
+      // Button hover and click effects
+      function addButtonEffects(button) {
+          button.addEventListener('mouseover', function() {
+              this.style.color = '#00ffff';
+              this.style.transform = 'rotate(90deg)';
+          });
+          button.addEventListener('mouseout', function() {
+              this.style.color = 'rgba(255,255,255,0.6)';
+              this.style.transform = 'rotate(0)';
+          });
+      }
+  
+      // Add effects to buttons
+      addButtonEffects(minimizeButton);
+      addButtonEffects(closeButton);
+  
+      // Attach event listeners
+      minimizeButton.addEventListener('click', minimizeNavbar);
+      closeButton.addEventListener('click', closeNavbar);
+      minimizedButton.addEventListener('click', maximizeNavbar);
+  
+      // Assemble control buttons
+      controlButtonsContainer.appendChild(minimizeButton);
+      controlButtonsContainer.appendChild(closeButton);
+  
+      // Assemble the content wrapper
+      contentWrapper.appendChild(linksContainer);
+      contentWrapper.appendChild(panicContainer);
+  
+      // Assemble the navbar
+      navBar.appendChild(contentWrapper);
+      navBar.appendChild(controlButtonsContainer);
+  
+      // Remove existing custom navbar if it exists
+      var existingNavbar = document.getElementById('custom-navbar');
+      if (existingNavbar) {
+          existingNavbar.remove();
+      }
+  
+      // Insert the navbar
+      document.body.insertBefore(navBar, document.body.firstChild);
+  })();</script>
+    <script src="/js/all.min.js"></script>
+
+  </head>
+  <body style="width: 100%; height: 100%; margin: 0;">
+    <div id="unity-container" style="width: 100%; height: 100%; margin: 0;" class="unity-desktop">
+      <canvas id="unity-canvas" style="width: 100%; height: 100%; margin: 0;"></canvas>
+      <div id="unity-loading-bar">
+        <div id="unity-logo"></div>
+        <div id="unity-progress-bar-empty">
+          <div id="unity-progress-bar-full"></div>
+        </div>
+      </div>
+      <div id="unity-mobile-warning">
+        WebGL builds are not supported on mobile devices.
+      </div>
+    </div>
+    <script>
+      var buildUrl = "Build";
+      var loaderUrl = "WebGL2Players v1.1.loader.js";
+      var config = {
+        dataUrl: "WebGL2Players v1.1.data.unityweb",
+        frameworkUrl: "WebGL2Players v1.1.framework.js.unityweb",
+        codeUrl: "WebGL2Players v1.1.wasm.unityweb",
+        streamingAssetsUrl: "StreamingAssets",
+        companyName: "DefaultCompany",
+        productName: "Slope 2 Player",
+        productVersion: "1",
+      };
+
+      var container = document.querySelector("#unity-container");
+      var canvas = document.querySelector("#unity-canvas");
+      var loadingBar = document.querySelector("#unity-loading-bar");
+      var progressBarFull = document.querySelector("#unity-progress-bar-full");
+      var fullscreenButton = document.querySelector("#unity-fullscreen-button");
+      var mobileWarning = document.querySelector("#unity-mobile-warning");
+
+      if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+        container.className = "unity-mobile";
+        // Avoid draining fillrate performance on mobile devices,
+        // and default/override low DPI mode on mobile browsers.
+        config.devicePixelRatio = 1;
+        mobileWarning.style.display = "block";
+        setTimeout(() => {
+          mobileWarning.style.display = "none";
+        }, 5000);
+      }
+      loadingBar.style.display = "block";
+
+      var script = document.createElement("script");
+      script.src = loaderUrl;
+      script.onload = () => {
+        createUnityInstance(canvas, config, (progress) => {
+          progressBarFull.style.width = 100 * progress + "%";
+        })
+          .then((unityInstance) => {
+            loadingBar.style.display = "none";
+            fullscreenButton.onclick = () => {
+              unityInstance.SetFullscreen(1);
+            };
+          })
+          .catch((message) => {
+            console.log(message);
+          });
+      };
+      document.body.appendChild(script);
+    </script>
+    <script defer src="sg.min.js"></script>
+  </body>
+</html>

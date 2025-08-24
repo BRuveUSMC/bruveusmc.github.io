@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="6'7 Games Eaglerforge Injector is a tool designed for modifying or injecting code into Eaglercraft clients, supporting 1.8 and 1.12.">
+    <link rel="canonical" href="https://eaglerforge.github.io/eaglerforgeinjector/">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:title" content="6'7 Games Eaglerforge Injector - Modding API for Eaglercraft">
+    <meta property="og:url" content="https://eaglerforge.github.io/eaglerforgeinjector/">
+    <meta property="og:site_name" content="6'7 Games Eaglerforge Injector - Modding API for Eaglercraft">
+
+    <meta property="og:image" content="http://eaglerforge.github.io/EaglerForgeInjector/res/EaglerForgeInjector.png">
+    <meta property="og:image:width" content="1024">
+    <meta property="og:image:height" content="1024">
+    <meta property="og:image:type" content="image/png">
+
+    <meta name="author" content="6'7 Games">
+
+    <title>Loading...</title>
+    <link
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background-color: #000000;
+        color: #ffffff;
+        font-family: 'Inter', 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif;
+        line-height: 1.5;
+        min-height: 100vh;
+        overflow-x: hidden;
+        font-weight: 400;
+      }
+
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 2rem 1rem;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+      }
+
+      .header-section {
+        text-align: center;
+        margin-bottom: 3rem;
+        width: 100%;
+      }
+
+      h1 {
+        font-size: 2.8rem;
+        font-weight: 200;
+        letter-spacing: -1px;
+        margin-bottom: 0.5rem;
+        color: #ffffff;
+      }
+
+      .brand-name {
+        color: #ffffff;
+        font-weight: 700;
+      }
+
+      h6 {
+        font-size: 1rem;
+        font-weight: 300;
+        color: #ffffff;
+        max-width: 600px;
+        margin: 0 auto;
+        line-height: 1.4;
+      }
+
+      .github-button-container {
+        position: fixed;
+        top: 1.5rem;
+        right: 1.5rem;
+        z-index: 1000;
+      }
+
+      .github-button-container a.btn {
+        background: #000000;
+        color: #ffffff;
+        border: 1px solid #ffffff;
+        padding: 0.5rem 1rem;
+        border-radius: 0;
+        text-decoration: none;
+        transition: all 0.1s ease;
+        font-size: 0.9rem;
+        font-weight: 500;
+      }
+
+      .github-button-container a.btn:hover {
+        background-color: #ffffff;
+        color: #000000;
+      }
+
+      .upload-section {
+        background: #000000;
+        border: 1px solid #ffffff;
+        border-radius: 0;
+        padding: 2rem;
+        width: 100%;
+        max-width: 500px;
+        margin-bottom: 3rem;
+      }
+
+      .custom-file {
+        margin-bottom: 1.5rem;
+      }
+
+      .custom-file-input {
+        opacity: 0;
+        width: 0.1px;
+        height: 0.1px;
+        position: absolute;
+      }
+
+      .custom-file-label {
+        display: block;
+        padding: 0.75rem 1rem;
+        background: #000000;
+        border: 1px solid #ffffff;
+        border-radius: 0;
+        cursor: pointer;
+        transition: all 0.1s ease;
+        text-align: center;
+        color: #ffffff;
+        font-weight: 400;
+      }
+
+      .custom-file-label:hover {
+        background: #ffffff;
+        color: #000000;
+      }
+
+      .config-options {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+        padding: 1rem;
+        background: #000000;
+        border-radius: 0;
+        border: 1px solid #ffffff;
+      }
+
+      .config-option {
+        display: flex;
+        align-items: center;
+        font-size: 0.9rem;
+        color: #ffffff;
+        font-weight: 400;
+      }
+
+      .config-option label {
+        margin-right: 0.5rem;
+        margin-bottom: 0;
+        cursor: pointer;
+        font-weight: 400;
+      }
+
+      .config-option input[type="checkbox"] {
+        accent-color: #ffffff;
+        margin: 0;
+      }
+
+      #status {
+        display: block;
+        text-align: center;
+        color: #ffffff;
+        font-size: 0.9rem;
+        font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Consolas', monospace;
+        padding: 0.5rem;
+        margin-bottom: 1rem;
+        font-weight: 400;
+      }
+
+      .button-group {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .btn {
+        background: #ffffff;
+        color: #000000;
+        border: 1px solid #ffffff;
+        padding: 0.75rem 1.5rem;
+        border-radius: 0;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.1s ease;
+        text-decoration: none;
+        display: inline-block;
+        font-family: inherit;
+      }
+
+      .btn:hover {
+        background: #000000;
+        color: #ffffff;
+      }
+
+      .info-section {
+        width: 100%;
+        max-width: 600px;
+      }
+
+      .info-header {
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        color: #ffffff;
+        text-align: center;
+      }
+
+      details {
+        background: #000000;
+        border: 1px solid #ffffff;
+        border-radius: 0;
+        margin-bottom: 1rem;
+        overflow: hidden;
+        transition: none;
+      }
+
+      summary {
+        background: #000000;
+        padding: 1rem 1.5rem;
+        cursor: pointer;
+        font-weight: 500;
+        color: #ffffff;
+        transition: all 0.1s ease;
+        border-bottom: 1px solid transparent;
+      }
+
+      summary:hover {
+        background: #ffffff;
+        color: #000000;
+      }
+
+      details[open] summary {
+        border-bottom-color: #ffffff;
+        background: #ffffff;
+        color: #000000;
+      }
+
+      details p, details div {
+        padding: 1.5rem;
+        color: #ffffff;
+        line-height: 1.5;
+        font-weight: 400;
+      }
+
+      details a {
+        color: #ffffff;
+        text-decoration: underline;
+        transition: none;
+        font-weight: 500;
+      }
+
+      details a:hover {
+        color: #ffffff;
+      }
+
+      code {
+        background: #ffffff;
+        color: #000000;
+        padding: 0.2rem 0.4rem;
+        border-radius: 0;
+        font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Consolas', monospace;
+        border: 1px solid #ffffff;
+        font-weight: 500;
+      }
+
+      @media (max-width: 768px) {
+        .container {
+          padding: 1rem;
+        }
+        
+        h1 {
+          font-size: 2rem;
+        }
+        
+        .github-button-container {
+          top: 1rem;
+          right: 1rem;
+        }
+        
+        .upload-section {
+          padding: 1.5rem;
+        }
+        
+        .config-options {
+          grid-template-columns: 1fr;
+          gap: 0.5rem;
+        }
+        
+        .button-group {
+          flex-direction: column;
+          width: 100%;
+        }
+        
+        .btn {
+          width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="github-button-container">
+        <a
+          href="https://github.com/eaglerforge/EaglerForgeInjector"
+          class="btn btn-default"
+          target="_blank"
+        >
+          <i class="fab fa-github"></i> GitHub
+        </a>
+      </div>
+
+      <div class="header-section">
+        <h1><span class="brand-name">6'7 Games</span> Eaglerforge Injector</h1>
+        <h6>
+          Adds ModAPI with enhanced functionality including function hooking and class exposure 
+          to unminified EaglercraftX offline downloads.
+        </h6>
+      </div>
+
+      <div class="upload-section">
+        <div class="custom-file">
+          <input
+            class="custom-file-input"
+            type="file"
+            id="htmlFile"
+            accept=".html,.js"
+          />
+          <label class="custom-file-label" for="htmlFile">
+            Choose .html file...
+          </label>
+        </div>
+
+        <div class="config-options">
+          <div class="config-option">
+            <label for="minify">Minify:</label>
+            <input type="checkbox" id="minify" oninput="EFIConfig.doMinify = this.checked">
+          </div>
+          <div class="config-option">
+            <label for="minifyExtras">MinifyExtras:</label>
+            <input type="checkbox" id="minifyExtras" oninput="EFIConfig.doMinifyPlus = this.checked">
+          </div>
+          <div class="config-option">
+            <label for="eaglerforge">EaglerForge:</label>
+            <input checked type="checkbox" id="eaglerforge" oninput="EFIConfig.doEaglerforge = this.checked">
+          </div>
+        </div>
+
+        <code id="status">Awaiting input...</code>
+
+        <div class="button-group">
+          <button class="btn" id="giveme">Make modded client</button>
+          <button class="btn" id="givemeserver">Make modded server</button>
+        </div>
+      </div>
+
+      <div class="info-section">
+        <div class="info-header">Documentation</div>
+        
+        <details>
+          <summary>
+            Where can I download an unobfuscated unsigned Eaglercraft build?
+          </summary>
+          <div>
+            <p>
+              <strong>1.8:</strong>
+              <a href="https://github.com/Eaglercraft-Archive/unminified-eaglercraft-builds/releases/latest">
+                https://github.com/Eaglercraft-Archive/unminified-eaglercraft-builds/releases/latest
+              </a>
+            </p>
+            <p>
+              <strong>1.12:</strong>
+              <a href="https://github.com/Eaglercraft-Archive/unminified-eaglercraft-builds-1.12/releases/latest">
+                https://github.com/Eaglercraft-Archive/unminified-eaglercraft-builds-1.12/releases/latest
+              </a>
+            </p>
+          </div>
+        </details>
+
+        <details>
+          <summary>
+            How do I compile my own unobfuscated unsigned Eaglercraft build?
+          </summary>
+          <div>
+            <a href="docs/compiling_client">Tutorial available here</a>
+          </div>
+        </details>
+
+        <details>
+          <summary>How does this tool work?</summary>
+          <div>
+            The injector analyzes your uploaded file for patterns in TeaVM's compiled JavaScript code. 
+            It replaces functions with proxies to original code, moving them into 
+            <code>ModAPI.hooks.methods</code>. Similar processing applies to static properties and 
+            constructors, with hooks into <code>$rt_metadata</code> for auxiliary information.
+          </div>
+        </details>
+
+        <details>
+          <summary>Documentation</summary>
+          <div>
+            <a href="https://eaglerforge.github.io/EaglerForgeInjector/docs">
+              https://eaglerforge.github.io/EaglerForgeInjector/docs
+            </a>
+          </div>
+        </details>
+      </div>
+    </div>
+
+    <!-- Libraries -->
+    <script src="libs/babel.min.js"></script>
+    <script src="libs/filesaver.min.js"></script>
+
+    <script>
+      document.querySelector("#htmlFile").addEventListener("input", (e) => {
+        if (e.target.files[0]) {
+          document.querySelector(".custom-file-label").innerText =
+            e.target.files[0].name;
+        }
+      });
+    </script>
+
+    <!-- Code assets -->
+    <script src="core/patches.js"></script>
+    <script src="core/minify.js"></script>
+    <script src="core/postinit.js"></script>
+    <script src="core/modloader.js"></script>
+    <script src="core/modgui.js"></script>
+    <script src="core/efserver.js"></script>
+    <script src="core/core.js"></script>
+
+    <script src="backgroundLogger.js"></script>
+    <script src="browser.js"></script>
+  </body>
+</html>

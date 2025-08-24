@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>6'7</title>
+<link rel="icon" type="image/png" href="img/67.png">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+*{margin:0;padding:0;box-sizing:border-box;image-rendering:pixelated;image-rendering:-moz-crisp-edges;image-rendering:crisp-edges}
+body{font-family:'Press Start 2P',monospace;font-size:12px;background:url('img/background1.gif') center center fixed;background-size:cover;color:#000;line-height:1.8;position:relative;transition:all 0.3s ease;min-height:100vh;overflow-x:hidden}
+body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;background:radial-gradient(circle at 30% 70%,rgba(100,149,237,0.3),transparent 60%),linear-gradient(45deg,rgba(173,216,230,0.25) 25%,transparent 25%,transparent 75%,rgba(135,206,235,0.25) 75%),linear-gradient(-45deg,rgba(176,196,222,0.2) 25%,transparent 25%,transparent 75%,rgba(70,130,180,0.2) 75%);background-size:400px 400px,16px 16px,16px 16px;z-index:-1;transition:all 0.3s ease}
+body.woodsTheme{background:url('img/background2.gif') center center fixed;background-size:cover;color:#2d1b0e}
+body.woodsTheme::before{background:radial-gradient(circle at 60% 40%,rgba(139,69,19,0.2),transparent 50%),repeating-linear-gradient(90deg,rgba(245,222,179,0.15) 0px,rgba(245,222,179,0.15) 8px,rgba(218,165,32,0.15) 8px,rgba(218,165,32,0.15) 16px),repeating-linear-gradient(0deg,rgba(160,82,45,0.1) 0px,transparent 4px,transparent 12px,rgba(205,133,63,0.1) 16px);background-size:600px 600px,16px 16px,24px 24px}
+.settingsBtn{position:fixed;top:20px;right:20px;z-index:100;padding:12px;background:rgba(230,230,230,0.85);border:4px solid #333;border-radius:0;cursor:pointer;transition:all 0.2s ease;font-size:14px;width:48px;height:48px;display:flex;align-items:center;justify-content:center;box-shadow:4px 4px 0 #000;image-rendering:pixelated;backdrop-filter:blur(2px)}
+.settingsBtn:hover{background:rgba(212,212,212,0.9);transform:translate(-2px,-2px);box-shadow:6px 6px 0 #000}
+.settingsBtn:active{transform:translate(2px,2px);box-shadow:2px 2px 0 #000}
+body.woodsTheme .settingsBtn{background:rgba(222,184,135,0.85);border-color:#8b4513;box-shadow:4px 4px 0 #654321}
+body.woodsTheme .settingsBtn:hover{background:rgba(210,180,140,0.9);box-shadow:6px 6px 0 #654321}
+body.woodsTheme .settingsBtn:active{box-shadow:2px 2px 0 #654321}
+
+.settingsModal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);z-index:1001;transition:all 0.2s ease}
+.settingsModalContent{background:rgba(240,240,240,0.75);margin:10% auto;padding:24px;width:90%;max-width:480px;border:6px solid #333;position:relative;box-shadow:8px 8px 0 #000;image-rendering:pixelated;backdrop-filter:blur(3px)}
+body.woodsTheme .settingsModalContent{background:rgba(245,222,179,0.8);border-color:#8b4513;box-shadow:8px 8px 0 #654321}
+.settingsHeader{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;padding-bottom:12px;border-bottom:3px solid #333}
+body.woodsTheme .settingsHeader{border-bottom-color:#8b4513}
+.settingsTitle{font-size:16px;font-weight:normal;color:#000;display:flex;align-items:center;gap:8px}
+body.woodsTheme .settingsTitle{color:#2d1b0e}
+.themeSection{margin-bottom:24px}
+.themeSection h3{font-size:14px;font-weight:normal;color:#333;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+body.woodsTheme .themeSection h3{color:#2d1b0e}
+.themeOptions{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.themeOption{padding:16px;background:#e6e6e6;border:4px solid #333;cursor:pointer;transition:all 0.2s ease;text-align:center;image-rendering:pixelated;box-shadow:4px 4px 0 #000}
+.themeOption:hover{background:#d4d4d4;transform:translate(-1px,-1px);box-shadow:5px 5px 0 #000}
+.themeOption:active{transform:translate(2px,2px);box-shadow:2px 2px 0 #000}
+.themeOption.active{background:#4169e1;color:#fff;border-color:#000080;box-shadow:4px 4px 0 #000080}
+body.woodsTheme .themeOption{background:#deb887;border-color:#8b4513;box-shadow:4px 4px 0 #654321}
+body.woodsTheme .themeOption:hover{background:#d2b48c;box-shadow:5px 5px 0 #654321}
+body.woodsTheme .themeOption:active{box-shadow:2px 2px 0 #654321}
+body.woodsTheme .themeOption.active{background:#228b22;color:#f0fff0;border-color:#006400;box-shadow:4px 4px 0 #006400}
+.themeOptionIcon{font-size:20px;margin-bottom:8px;color:inherit}
+.themeOptionName{font-weight:normal;font-size:10px}
+.container{max-width:1200px;margin:0 auto;position:relative;z-index:1;padding:20px}
+.header{text-align:center;margin-bottom:32px;padding:24px;background:rgba(240,240,240,0.75);border:4px solid #333;transition:all 0.3s ease;box-shadow:6px 6px 0 #000;image-rendering:pixelated;backdrop-filter:blur(2px)}
+body.woodsTheme .header{background:rgba(245,222,179,0.8);border-color:#8b4513;box-shadow:6px 6px 0 #654321}
+.header h1{font-size:24px;font-weight:normal;color:#000;margin-bottom:12px;transition:all 0.3s ease}
+body.woodsTheme .header h1{color:#2d1b0e}
+.header p{color:#333;font-size:12px;transition:all 0.3s ease;margin-bottom:16px}
+body.woodsTheme .header p{color:#8b4513}
+.headerLinks{display:flex;justify-content:center;gap:16px;flex-wrap:wrap}
+.headerLink{padding:8px 16px;background:#4169e1;color:#fff;border:4px solid #000080;font-family:'Press Start 2P',monospace;font-size:10px;text-decoration:none;transition:all 0.2s ease;box-shadow:4px 4px 0 #000080;image-rendering:pixelated;display:inline-flex;align-items:center;gap:6px}
+.headerLink:hover{background:#6495ed;transform:translate(-1px,-1px);box-shadow:5px 5px 0 #000080;color:#fff}
+.headerLink:active{transform:translate(2px,2px);box-shadow:2px 2px 0 #000080}
+body.woodsTheme .headerLink{background:#228b22;color:#f0fff0;border-color:#006400;box-shadow:4px 4px 0 #006400}
+body.woodsTheme .headerLink:hover{background:#32cd32;box-shadow:5px 5px 0 #006400;color:#f0fff0}
+body.woodsTheme .headerLink:active{box-shadow:2px 2px 0 #006400}
+.searchBar{max-width:480px;margin:0 auto 24px;position:relative}
+.searchBar input{width:100%;padding:12px;border:4px solid #333;font-family:'Press Start 2P',monospace;font-size:12px;outline:none;transition:all 0.2s ease;background:rgba(255,255,255,0.85);box-shadow:4px 4px 0 #000;image-rendering:pixelated;backdrop-filter:blur(2px)}
+.searchBar input:focus{border-color:#4169e1;box-shadow:4px 4px 0 #000080}
+body.woodsTheme .searchBar input{background:rgba(255,248,220,0.9);border-color:#8b4513;box-shadow:4px 4px 0 #654321}
+body.woodsTheme .searchBar input:focus{border-color:#228b22;box-shadow:4px 4px 0 #006400}
+.categories{display:flex;justify-content:center;gap:12px;margin-bottom:24px;flex-wrap:wrap}
+.categoryBtn{padding:8px 16px;background:#e6e6e6;border:4px solid #333;cursor:pointer;transition:all 0.2s ease;font-family:'Press Start 2P',monospace;font-size:10px;color:#333;box-shadow:4px 4px 0 #000;image-rendering:pixelated}
+.categoryBtn:hover{background:#d4d4d4;transform:translate(-1px,-1px);box-shadow:5px 5px 0 #000}
+.categoryBtn:active{transform:translate(2px,2px);box-shadow:2px 2px 0 #000}
+.categoryBtn.active{background:#4169e1;color:#fff;border-color:#000080;box-shadow:4px 4px 0 #000080}
+body.woodsTheme .categoryBtn{background:#deb887;border-color:#8b4513;color:#2d1b0e;box-shadow:4px 4px 0 #654321}
+body.woodsTheme .categoryBtn:hover{background:#d2b48c;box-shadow:5px 5px 0 #654321}
+body.woodsTheme .categoryBtn:active{box-shadow:2px 2px 0 #654321}
+body.woodsTheme .categoryBtn.active{background:#228b22;color:#f0fff0;border-color:#006400;box-shadow:4px 4px 0 #006400}
+.gamesGrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px}
+.gameCard{background:rgba(240,240,240,0.8);border:4px solid #333;padding:20px;transition:all 0.2s ease;position:relative;cursor:pointer;box-shadow:6px 6px 0 #000;image-rendering:pixelated;backdrop-filter:blur(2px)}
+.gameCard:hover{transform:translate(-2px,-2px);box-shadow:8px 8px 0 #000;background:rgba(230,230,230,0.85)}
+.gameCard:active{transform:translate(2px,2px);box-shadow:4px 4px 0 #000}
+body.woodsTheme .gameCard{background:rgba(245,222,179,0.85);border-color:#8b4513;box-shadow:6px 6px 0 #654321}
+body.woodsTheme .gameCard:hover{box-shadow:8px 8px 0 #654321;background:rgba(240,230,140,0.9)}
+body.woodsTheme .gameCard:active{box-shadow:4px 4px 0 #654321}
+.gameHeader{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px}
+.gameTitle{font-size:14px;font-weight:normal;color:#000;margin-bottom:8px;transition:all 0.2s ease}
+body.woodsTheme .gameTitle{color:#2d1b0e}
+.gameCategory{background:#4169e1;color:#fff;padding:4px 8px;font-size:8px;font-weight:normal;transition:all 0.2s ease;border:2px solid #000080;box-shadow:2px 2px 0 #000080}
+body.woodsTheme .gameCategory{background:#228b22;color:#f0fff0;border-color:#006400;box-shadow:2px 2px 0 #006400}
+.gameDescription{color:#333;margin-bottom:16px;font-size:10px;transition:all 0.2s ease}
+body.woodsTheme .gameDescription{color:#8b4513}
+.playBtn{width:100%;padding:12px;background:#32cd32;color:#000;border:4px solid #228b22;font-family:'Press Start 2P',monospace;font-size:10px;font-weight:normal;cursor:pointer;transition:all 0.2s ease;box-shadow:4px 4px 0 #228b22;image-rendering:pixelated}
+.playBtn:hover{background:#90ee90;transform:translate(-1px,-1px);box-shadow:5px 5px 0 #228b22}
+.playBtn:active{transform:translate(2px,2px);box-shadow:2px 2px 0 #228b22}
+body.woodsTheme .playBtn{background:#daa520;color:#2d1b0e;border-color:#b8860b;box-shadow:4px 4px 0 #b8860b}
+body.woodsTheme .playBtn:hover{background:#ffd700;box-shadow:5px 5px 0 #b8860b}
+body.woodsTheme .playBtn:active{box-shadow:2px 2px 0 #b8860b}
+.noResults,.loadingMessage,.errorMessage{text-align:center;font-size:12px;margin-top:40px;background:rgba(240,240,240,0.8);padding:24px;border:4px solid #333;transition:all 0.3s ease;box-shadow:6px 6px 0 #000;image-rendering:pixelated;backdrop-filter:blur(2px)}
+body.woodsTheme .noResults,body.woodsTheme .loadingMessage,body.woodsTheme .errorMessage{background:rgba(245,222,179,0.85);border-color:#8b4513;color:#2d1b0e;box-shadow:6px 6px 0 #654321}
+.errorMessage{color:#dc143c}
+body.woodsTheme .errorMessage{color:#8b0000}
+.closeBtn{font-size:20px;cursor:pointer;color:#333;background:none;border:none;padding:4px;transition:all 0.2s ease;width:32px;height:32px;display:flex;align-items:center;justify-content:center}
+.closeBtn:hover{color:#000;background:#d4d4d4;transform:scale(1.1)}
+body.woodsTheme .closeBtn{color:#8b4513}
+body.woodsTheme .closeBtn:hover{color:#2d1b0e;background:#d2b48c}
+.startupModal{display:block;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.9);z-index:2000;transition:all 0.3s ease}
+.startupModalContent{background:rgba(240,240,240,0.95);margin:20% auto;padding:32px;width:90%;max-width:400px;border:6px solid #333;position:relative;box-shadow:8px 8px 0 #000;image-rendering:pixelated;text-align:center;backdrop-filter:blur(3px)}
+body.woodsTheme .startupModalContent{background:rgba(245,222,179,0.95);border-color:#8b4513;box-shadow:8px 8px 0 #654321}
+.startupTitle{font-size:14px;color:#000;margin-bottom:16px;font-weight:normal}
+body.woodsTheme .startupTitle{color:#2d1b0e}
+.startupText{font-size:10px;color:#333;margin-bottom:20px;line-height:1.6}
+body.woodsTheme .startupText{color:#8b4513}
+.startupBtn{padding:12px 24px;background:#32cd32;color:#000;border:4px solid #228b22;font-family:'Press Start 2P',monospace;font-size:10px;cursor:pointer;transition:all 0.2s ease;box-shadow:4px 4px 0 #228b22;image-rendering:pixelated}
+.startupBtn:hover{background:#90ee90;transform:translate(-1px,-1px);box-shadow:5px 5px 0 #228b22}
+.startupBtn:active{transform:translate(2px,2px);box-shadow:2px 2px 0 #228b22}
+body.woodsTheme .startupBtn{background:#daa520;color:#2d1b0e;border-color:#b8860b;box-shadow:4px 4px 0 #b8860b}
+body.woodsTheme .startupBtn:hover{background:#ffd700;box-shadow:5px 5px 0 #b8860b}
+body.woodsTheme .startupBtn:active{box-shadow:2px 2px 0 #b8860b}
+@media (max-width:768px){
+.container{padding:15px}
+.header{padding:20px;margin-bottom:24px}
+.header h1{font-size:18px}
+.headerLinks{gap:8px}
+.headerLink{padding:6px 12px;font-size:9px}
+.categories{gap:8px;margin-bottom:20px}
+.categoryBtn{padding:6px 12px;font-size:9px}
+.gamesGrid{grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+.themeOptions{grid-template-columns:1fr}
+.settingsBtn{top:15px;right:15px;width:44px;height:44px;font-size:12px}
+}
+</style>
+</head>
+<body>
+<div id="startupModal" class="startupModal">
+<div class="startupModalContent">
+<div class="startupTitle">Credits</div>
+<div class="startupText">Backgrounds by **drea on pinterest</div>
+<button class="startupBtn" id="startupOk">OK</button>
+</div>
+</div>
+
+<button class="settingsBtn" id="settingsBtn">
+<i class="fas fa-cog"></i>
+</button>
+<div class="container">
+<div class="header">
+<h1>6'7 games</h1>
+<p>cause kentucky decided to ban phones</p>
+<div class="headerLinks">
+<a href="updates.html" class="headerLink">
+<i class="fas fa-newspaper"></i>
+Updates
+</a>
+</div>
+</div>
+<div class="searchBar">
+<input type="text" id="searchInput" placeholder="Search for games...">
+</div>
+<div class="categories" id="categories">
+<button class="categoryBtn active" data-category="all">All Games</button>
+</div>
+<div id="loadingMessage" class="loadingMessage">Loading games...</div>
+<div id="errorMessage" class="errorMessage" style="display:none;">Error loading games. Please check that load.json exists and is properly formatted.</div>
+<div id="gamesGrid" class="gamesGrid" style="display:none;"></div>
+<div id="noResults" class="noResults" style="display:none;">
+No games found matching your search criteria.
+</div>
+</div>
+<div id="settingsModal" class="settingsModal">
+<div class="settingsModalContent">
+<div class="settingsHeader">
+<div class="settingsTitle">
+<i class="fas fa-cog"></i>
+Settings
+</div>
+<button class="closeBtn" id="closeSettings">×</button>
+</div>
+<div class="themeSection">
+<h3>
+<i class="fas fa-palette"></i>
+Choose Theme
+</h3>
+<div class="themeOptions">
+<div class="themeOption" data-theme="default">
+<div class="themeOptionIcon">
+<i class="fas fa-city"></i>
+</div>
+<div class="themeOptionName">City</div>
+</div>
+<div class="themeOption" data-theme="woods">
+<div class="themeOptionIcon">
+<i class="fas fa-tree"></i>
+</div>
+<div class="themeOptionName">Woods</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script>
+let g=[];
+let cc='all';
+let cs='';
+let ac=new Set();
+let st='default';
+const gg=document.getElementById('gamesGrid');
+const si=document.getElementById('searchInput');
+const ct=document.getElementById('categories');
+const nr=document.getElementById('noResults');
+const lm=document.getElementById('loadingMessage');
+const em=document.getElementById('errorMessage');
+const startupModal=document.getElementById('startupModal');
+const startupOk=document.getElementById('startupOk');
+const sb=document.getElementById('settingsBtn');
+const sm=document.getElementById('settingsModal');
+const cls=document.getElementById('closeSettings');
+const to=document.querySelectorAll('.themeOption');
+const lt=()=>{
+const t=gc('theme')||'default';
+st=t;
+if(t==='woods'){
+document.body.classList.add('woodsTheme');
+}else{
+document.body.classList.remove('woodsTheme');
+}
+to.forEach(o=>{
+if(o.dataset.theme===t){
+o.classList.add('active');
+}else{
+o.classList.remove('active');
+}
+});
+};
+const sav=(t)=>{
+sc('theme',t,365);
+st=t;
+};
+const sc=(n,v,d)=>{
+const e=new Date();
+e.setTime(e.getTime()+(d*24*60*60*1000));
+document.cookie=n+'='+v+';expires='+e.toUTCString()+';path=/';
+};
+const gc=(n)=>{
+const ne=n+'=';
+const ca=document.cookie.split(';');
+for(let i=0;i<ca.length;i++){
+let c=ca[i];
+while(c.charAt(0)===' ')c=c.substring(1,c.length);
+if(c.indexOf(ne)===0)return c.substring(ne.length,c.length);
+}
+return null;
+};
+const lg=async()=>{
+try{
+const r=await fetch('load.json');
+if(!r.ok){
+throw new Error(`HTTP error! status: ${r.status}`);
+}
+const gms=await r.json();
+g=gms.map((gm,i)=>({
+id:i+1,
+title:gm.name,
+category:gm.category.toLowerCase(),
+description:gm.description,
+url:gm.path.startsWith('http')?gm.path:window.location.origin+gm.path
+}));
+ac=new Set(g.map(gm=>gm.category));
+uc();
+lm.style.display='none';
+gg.style.display='grid';
+rg();
+}catch(e){
+console.error('Error loading games:',e);
+lm.style.display='none';
+em.style.display='block';
+}
+};
+const uc=()=>{
+ct.innerHTML='<button class="categoryBtn active" data-category="all">All Games</button>';
+[...ac].sort().forEach(c=>{
+const b=document.createElement('button');
+b.className='categoryBtn';
+b.setAttribute('data-category',c);
+b.textContent=c.charAt(0).toUpperCase()+c.slice(1);
+ct.appendChild(b);
+b.addEventListener('click',()=>{
+document.querySelectorAll('.categoryBtn').forEach(btn=>btn.classList.remove('active'));
+b.classList.add('active');
+cc=c;
+rg();
+});
+});
+const ab=document.querySelector('[data-category="all"]');
+ab.addEventListener('click',()=>{
+document.querySelectorAll('.categoryBtn').forEach(b=>b.classList.remove('active'));
+ab.classList.add('active');
+cc='all';
+rg();
+});
+};
+sb.addEventListener('click',()=>{
+sm.style.display='block';
+});
+cls.addEventListener('click',()=>{
+sm.style.display='none';
+});
+window.addEventListener('click',(e)=>{
+if(e.target===sm){
+sm.style.display='none';
+}
+});
+to.forEach(o=>{
+o.addEventListener('click',()=>{
+to.forEach(opt=>opt.classList.remove('active'));
+o.classList.add('active');
+const t=o.dataset.theme;
+sav(t);
+if(t==='woods'){
+document.body.classList.add('woodsTheme');
+}else{
+document.body.classList.remove('woodsTheme');
+}
+});
+});
+startupOk.addEventListener('click',()=>{
+startupModal.style.display='none';
+});
+const pg=(gm)=>{
+window.open(gm.url,'_blank');
+};
+const rg=()=>{
+let fg=g;
+if(cc!=='all'){
+fg=fg.filter(gm=>gm.category===cc);
+}
+if(cs){
+fg=fg.filter(gm=>
+gm.title.toLowerCase().includes(cs.toLowerCase())||
+gm.description.toLowerCase().includes(cs.toLowerCase())||
+gm.category.toLowerCase().includes(cs.toLowerCase())
+);
+}
+if(fg.length===0){
+gg.style.display='none';
+nr.style.display='block';
+return;
+}
+gg.style.display='grid';
+nr.style.display='none';
+gg.innerHTML=fg.map(gm=>`
+<div class="gameCard" onclick="pg(${JSON.stringify(gm).replace(/"/g,'&quot;')})">
+<div class="gameHeader">
+<div>
+<div class="gameTitle">${gm.title}</div>
+</div>
+<div class="gameCategory">${gm.category}</div>
+</div>
+<div class="gameDescription">${gm.description}</div>
+<button class="playBtn">Play Now</button>
+</div>
+`).join('');
+};
+si.addEventListener('input',(e)=>{
+cs=e.target.value;
+rg();
+});
+document.addEventListener('DOMContentLoaded',()=>{
+lt();
+lg();
+});
+</script>
+</body>
+</html>

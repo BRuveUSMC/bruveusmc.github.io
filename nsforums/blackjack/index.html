@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Midnight Blackjack</title>
+  <style>
+    /* General Styling */
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+    body {
+      font-family: 'Roboto', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #2c003e, #000);
+      color: white;
+      overflow: hidden;
+    }
+
+    h1, h2 {
+      text-align: center;
+    }
+
+    /* Loading Screen */
+    #loading-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+
+    .spinner {
+      border: 5px solid rgba(255, 255, 255, 0.3);
+      border-top: 5px solid #7d5ba6;
+      border-radius: 50%;
+      width: 70px;
+      height: 70px;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* Menu Screen */
+    #menu-screen {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      display: none;
+    }
+
+    .menu-button {
+      padding: 15px 30px;
+      margin: 15px;
+      font-size: 20px;
+      font-weight: bold;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      background: #7d5ba6;
+      color: white;
+      transition: transform 0.3s, background 0.3s, box-shadow 0.3s;
+      box-shadow: 0 5px 15px rgba(125, 91, 166, 0.5);
+    }
+
+    .menu-button:hover {
+      background: #6a4b91;
+      transform: scale(1.1);
+      box-shadow: 0 8px 20px rgba(125, 91, 166, 0.7);
+    }
+
+    /* Game Screen */
+    .game-container {
+      display: none;
+      max-width: 800px;
+      margin: 50px auto;
+      padding: 20px;
+      background: rgba(0, 0, 0, 0.8);
+      border-radius: 15px;
+      box-shadow: 0 0 20px rgba(125, 91, 166, 0.8);
+    }
+
+    .cards {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin: 10px 0;
+    }
+
+    .card {
+      width: 60px;
+      height: 90px;
+      background: linear-gradient(145deg, #572d67, #2c003e);
+      color: white;
+      border-radius: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      font-weight: bold;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.5);
+      transition: transform 0.5s ease-in-out;
+    }
+
+    .controls {
+      margin: 20px 0;
+      text-align: center;
+    }
+
+    button {
+      padding: 10px 20px;
+      margin: 5px;
+      font-size: 18px;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      background: #7d5ba6;
+      color: white;
+      transition: all 0.3s;
+      box-shadow: 0 4px 8px rgba(125, 91, 166, 0.5);
+    }
+
+    button:hover {
+      background: #6a4b91;
+    }
+
+    #result {
+      font-size: 22px;
+      margin-top: 20px;
+      font-weight: bold;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <!-- Loading Screen -->
+  <div id="loading-screen">
+    <div class="spinner"></div>
+  </div>
+
+  <!-- Menu Screen -->
+  <div id="menu-screen">
+    <h1>Welcome to Midnight Blackjack</h1>
+    <button class="menu-button" data-difficulty="easy">Easy</button>
+    <button class="menu-button" data-difficulty="medium">Medium</button>
+    <button class="menu-button" data-difficulty="hard">Hard</button>
+  </div>
+
+  <!-- Game Screen -->
+  <div class="game-container">
+    <h1>Blackjack</h1>
+    <div class="game-board">
+      <div class="player">
+        <h2>Your Hand</h2>
+        <div id="player-cards" class="cards"></div>
+        <p id="player-score">Score: 0</p>
+      </div>
+      <div class="dealer">
+        <h2>Dealer's Hand</h2>
+        <div id="dealer-cards" class="cards"></div>
+        <p id="dealer-score">Score: 0</p>
+      </div>
+    </div>
+    <div class="controls">
+      <button id="hit-btn">Hit</button>
+      <button id="stand-btn">Stand</button>
+      <button id="restart-btn">Restart</button>
+    </div>
+    <p id="result"></p>
+  </div>
+
+  <script>
+    // Utility functions
+    const randomCard = () => Math.floor(Math.random() * 11) + 1;
+    const calculateScore = (cards) => cards.reduce((a, b) => a + b, 0);
+
+    // Game State
+    let playerCards = [];
+    let dealerCards = [];
+    let gameActive = true;
+
+    const updateUI = () => {
+      // Update Cards and Scores
+      document.getElementById("player-cards").innerHTML = playerCards.map((card) => `<div class="card">${card}</div>`).join("");
+      document.getElementById("dealer-cards").innerHTML = dealerCards.map((card) => `<div class="card">${card}</div>`).join("");
+      document.getElementById("player-score").textContent = `Score: ${calculateScore(playerCards)}`;
+      document.getElementById("dealer-score").textContent = `Score: ${calculateScore(dealerCards)}`;
+    };
+
+    const checkWinner = () => {
+      const playerScore = calculateScore(playerCards);
+      const dealerScore = calculateScore(dealerCards);
+
+      if (playerScore > 21) {
+        document.getElementById("result").textContent = "You busted! Dealer wins.";
+        gameActive = false;
+      } else if (dealerScore > 21) {
+        document.getElementById("result").textContent = "Dealer busted! You win.";
+        gameActive = false;
+      } else if (!gameActive) {
+        if (playerScore > dealerScore) {
+          document.getElementById("result").textContent = "You win!";
+        } else if (playerScore < dealerScore) {
+          document.getElementById("result").textContent = "Dealer wins.";
+        } else {
+          document.getElementById("result").textContent = "It's a draw.";
+        }
+      }
+    };
+
+    const dealerPlay = () => {
+      const dealerScore = calculateScore(dealerCards);
+      if (dealerScore < 17) {
+        dealerCards.push(randomCard());
+        updateUI();
+        dealerPlay();
+      }
+    };
+
+    // Button Handlers
+    document.getElementById("hit-btn").addEventListener("click", () => {
+      if (!gameActive) return;
+      playerCards.push(randomCard());
+      updateUI();
+      checkWinner();
+    });
+
+    document.getElementById("stand-btn").addEventListener("click", () => {
+      gameActive = false;
+      dealerPlay();
+      checkWinner();
+    });
+
+    document.getElementById("restart-btn").addEventListener("click", () => {
+      playerCards = [randomCard(), randomCard()];
+      dealerCards = [randomCard()];
+      gameActive = true;
+      document.getElementById("result").textContent = "";
+      updateUI();
+    });
+
+    // Start Game
+    document.querySelectorAll(".menu-button").forEach((button) => {
+      button.addEventListener("click", () => {
+        document.getElementById("menu-screen").style.display = "none"; document.querySelector(".game-container").style.display = "block"; playerCards = [randomCard(), randomCard()]; dealerCards = [randomCard()]; updateUI(); }); });
+
+javascript
+Copy code
+// Loading Screen
+setTimeout(() => {
+  document.getElementById("loading-screen").style.display = "none";
+  document.getElementById("menu-screen").style.display = "flex";
+}, 2000);
+</script> </body> </html>

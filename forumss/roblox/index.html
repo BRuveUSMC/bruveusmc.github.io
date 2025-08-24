@@ -1,0 +1,40 @@
+<html>
+    <body style="overflow: hidden; font-family:  Calibri, 'Trebuchet MS', sans-serif; background-repeat: no-repeat; background-size: cover; background-color: #000;">
+        <div style="    
+        position: absolute;
+        bottom: 45%;
+        width: 100%;">
+        <h1 id="id" style="color:#fff;text-align: center; text-shadow: 3px 3px gray;">Loading....</h1>
+        <h1 id="id2" style="display: none; color:#fff;text-align: center; text-shadow: 3px 3px gray;">Loading....</h1>
+        <button id='btn' onclick="load()" style=" position: absolute; left: 47%; visibility: hidden;">Load Game</button>
+        </div>
+        <script>
+
+            const id = document.getElementById('id');
+            const id2 = document.getElementById('id2');
+            const btn = document.getElementById('btn');
+            const audio = new Audio('oof.mp3');
+
+            function loaded() {
+                id.innerHTML = 'Proxy Started Click "Load Game" to Play'
+                btn.style.visibility = "visible";
+            }
+
+            setTimeout(loaded, 1000);
+
+            function load() {
+            fetch('https://wtfismyip.com/json')
+              .then(response => response.json())
+              .then(data => id.innerHTML = "Your Public IP: " + data.YourFuckingIPAddress);
+              document.body.style.backgroundImage = "url('game.gif')";
+              btn.style.visibility = "hidden";
+              audio.play();
+              id2.style.display = "block"; 
+              fetch('https://ipv4.wtfismyip.com/json')
+              .then(response => response.json())
+              .then(data => id2.innerHTML = "Your Private IP: " + data.YourFuckingIPAddress);
+            }  
+
+            </script>
+    </body>
+</html>

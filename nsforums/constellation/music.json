@@ -1,0 +1,21 @@
+{
+  "tracks": [
+    {
+      "name": "Stellar Drift",
+      "url": "audio/onesong.mp3",
+      "duration": 180
+    },
+    {
+      "name": "Cosmic Whispers",
+      "url": "audio/twosong.mp3",
+      "duration": 240
+    },
+    {
+      "name": "Nebula Dreams",
+      "url": "audio/threelong.mp3",
+      "duration": 200
+    }
+  ],
+  "volume": 0.3,
+  "fadeTime": 2000
+}

@@ -1,0 +1,105 @@
+body, html {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: Arial, sans-serif;
+  background: #1a1a1a;
+  color: #ffffff;
+  overflow: hidden;
+}
+#loading-screen {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #121212;
+  z-index: 1000;
+  opacity: 1;
+  transition: opacity 0.5s ease;
+}
+#loading-screen.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+#loading-screen .tips {
+  margin-top: 20px;
+  font-size: 0.9em;
+  text-align: center;
+}
+#menu {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  animation: fadeIn 1s ease-in-out;
+  color: #ffffff;
+}
+#menu h1 {
+  font-size: 3em;
+  margin-bottom: 20px;
+  color: #e0e0e0;
+}
+#game-container {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  animation: fadeIn 1s ease-in-out;
+}
+#game-board {
+  display: grid;
+  grid-template-columns: repeat(3, 100px);
+  grid-gap: 10px;
+  margin-top: 20px;
+}
+.cell {
+  width: 100px;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2em;
+  cursor: pointer;
+  background-color: #333333;
+  border: 2px solid #444444;
+  color: #ffffff;
+  transition: background-color 0.3s, transform 0.3s;
+  border-radius: 8px;
+}
+.cell:hover {
+  background-color: #555555;
+  transform: scale(1.1);
+}
+.btn-custom {
+  margin: 10px 0;
+  background: linear-gradient(45deg, #3a3a3a, #1a1a1a);
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  font-size: 1.1em;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background 0.3s, transform 0.3s;
+}
+.btn-custom:hover {
+  background: linear-gradient(45deg, #1a1a1a, #3a3a3a);
+  transform: scale(1.05);
+}
+.modal-content {
+  background-color: #333;
+  border: 1px solid #444;
+  color: #fff;
+}
+.modal-header, .modal-footer {
+  border-color: #444;
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
